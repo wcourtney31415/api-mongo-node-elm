@@ -48,7 +48,7 @@ type alias User =
 
 type Msg
     = RequestUser
-    | GotUser (Result Http.Error User)
+    | GotUser (Result Http.Error (List User))
 
 
 initialModel : { apiCallState : ApiCallState, users : List User }
@@ -65,7 +65,7 @@ init _ =
 
 apiUrl : String
 apiUrl =
-    "http://localhost/test"
+    "http://localhost/people"
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -78,10 +78,10 @@ update msg model =
 
         GotUser result ->
             case result of
-                Ok user ->
+                Ok users ->
                     ( { model
                         | apiCallState = Success
-                        , users = user :: model.users
+                        , users = users
                       }
                     , Cmd.none
                     )
@@ -193,7 +193,7 @@ getUser : Cmd Msg
 getUser =
     Http.get
         { url = apiUrl
-        , expect = Http.expectJson GotUser userDecoder
+        , expect = Http.expectJson GotUser userListDecoder
         }
 
 
@@ -202,6 +202,11 @@ userDecoder =
     JsonDecoder.map2 User
         (field "firstName" string)
         (field "lastName" string)
+
+
+userListDecoder : Decoder (List User)
+userListDecoder =
+    JsonDecoder.list userDecoder
 
 
 fieldToRow : ( String, String ) -> E.Element msg
