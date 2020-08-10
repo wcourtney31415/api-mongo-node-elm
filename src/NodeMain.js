@@ -66,25 +66,6 @@ app.get('/', (req, res) => {
   console.log(`${address}/test accessed.`);
 })
 
-const query = {
-  lastName: "Green"
-};
-
-function dbQuery(dbUrl, dbName, colName, query) {
-  MongoClient.connect(dbUrl, function(err, connection) {
-    if (err) throw err;
-    const database = connection.db(dbName);
-    const collection = database.collection(colName);
-    const queryResults = collection.find(query)
-    queryResults.toArray(function(err, result) {
-      if (err) throw err;
-      console.log("Within the function: ".concat(result));
-      return result;
-      database.close();
-    });
-  });
-}
-
 app.post(linkThis, (request, response) => {
   body = request.body
   token = parseInt(body.token)
