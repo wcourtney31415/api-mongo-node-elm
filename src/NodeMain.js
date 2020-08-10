@@ -69,7 +69,6 @@ app.get('/', (req, res) => {
 app.post(linkPostPeople, (request, response) => {
   body = request.body
   token = parseInt(body.token)
-  var result;
   if (token === 5) {
     MongoClient.connect(mongoUrl, function(err, db) {
       if (err) throw err;
