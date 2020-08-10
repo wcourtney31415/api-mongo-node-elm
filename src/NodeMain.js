@@ -15,10 +15,10 @@ const mongoUrl = `mongodb://${mongoAddress}:${mongoPort}/`;
 const dbName = "MyDb"
 const myColName = "users"
 
-const linkPeople = '/people';
-const linkTest = '/test';
-const linkThis = '/this';
-const links = [linkPeople, linkTest, linkThis]
+const linkGetPeople = '/getShowPeople';
+const linkNonDB = '/nonDatabaseRequest';
+const linkPostPeople = '/postShowPeople';
+const links = [linkGetPeople, linkNonDB, linkPostPeople]
 
 
 
@@ -26,7 +26,7 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 
-app.get(linkPeople, (req, res) => {
+app.get(linkGetPeople, (req, res) => {
   MongoClient.connect(mongoUrl, function(err, db) {
     if (err) throw err;
     const dbo = db.db(dbName);
@@ -44,7 +44,7 @@ app.get(linkPeople, (req, res) => {
   console.log(`${address}/people accessed.`);
 })
 
-app.get(linkTest, (req, res) => {
+app.get(linkNonDB, (req, res) => {
   const myJson = {
     _id: "5f27882f5d389500061a6deb",
     firstName: "Celeste",
@@ -66,7 +66,7 @@ app.get('/', (req, res) => {
   console.log(`${address}/test accessed.`);
 })
 
-app.post(linkThis, (request, response) => {
+app.post(linkPostPeople, (request, response) => {
   body = request.body
   token = parseInt(body.token)
   var result;
