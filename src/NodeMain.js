@@ -84,7 +84,7 @@ app.post(linkPostPeople, (request, response) => {
       const dbo = db.db(dbName);
       const collection = dbo.collection(myColName);
       const query = {
-        lastName: "Green"
+        lastName: request.body.lastName
       };
       const queryResults = collection.find(query)
       queryResults.toArray(function(err, result) {
