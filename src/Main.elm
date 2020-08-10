@@ -65,7 +65,7 @@ init _ =
 
 apiUrl : String
 apiUrl =
-    "http://localhost/people"
+    "http://localhost:80/getShowPeople"
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )

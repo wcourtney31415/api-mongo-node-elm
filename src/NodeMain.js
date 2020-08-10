@@ -21,12 +21,11 @@ const linkPostPeople = '/postShowPeople';
 const links = [linkGetPeople, linkNonDB, linkPostPeople]
 
 
-
 app.use(bodyParser.urlencoded({
   extended: true
 }));
 
-app.get(linkGetPeople, (req, res) => {
+app.get(linkGetPeople, (request, response) => {
   MongoClient.connect(mongoUrl, function(err, db) {
     if (err) throw err;
     const dbo = db.db(dbName);
@@ -37,15 +36,15 @@ app.get(linkGetPeople, (req, res) => {
     const queryResults = collection.find(query)
     queryResults.toArray(function(err, result) {
       if (err) throw err;
-      res.send(result);
+      response.send(result);
       db.close();
     });
   });
-  console.log(`${address}/people accessed.`);
+  logPageServed(linkGetPeople);
 })
 
-app.get(linkNonDB, (req, res) => {
-  const myJson = {
+app.get(linkNonDB, (request, response) => {
+  const jsonExample = {
     _id: "5f27882f5d389500061a6deb",
     firstName: "Celeste",
     lastName: "Green",
@@ -57,14 +56,24 @@ app.get(linkNonDB, (req, res) => {
     zip: "39417",
     country: "Mongolia"
   };
-  res.json(myJson);
-  console.log(`${address}/test accessed.`);
+  response.json(jsonExample);
+  logPageServed(linkNonDB);
 })
 
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname + '/index.html'));
-  console.log(`${address}/test accessed.`);
+app.get('/', (request, response) => {
+  const homepage = getFile('index.html');
+  response.sendFile(homepage);
+  logPageServed("");
 })
+
+function getFile(fileName) {
+  return path.join(__dirname + '/' + fileName)
+}
+
+function logPageServed(path) {
+  const fullAddress = address + path
+  console.log(`Served up: ${fullAddress}`);
+}
 
 app.post(linkPostPeople, (request, response) => {
   body = request.body
@@ -87,6 +96,7 @@ app.post(linkPostPeople, (request, response) => {
   } else {
     response.json("[]");
   }
+  logPageServed(linkPostPeople);
 });
 
 //Keeps the server listening
