@@ -15,6 +15,7 @@ import Json.Decode as JsonDecoder
         , map2
         , string
         )
+import Json.Encode as JE
 import Style as S
 
 
@@ -37,6 +38,7 @@ type ApiCallState
 type alias Model =
     { apiCallState : ApiCallState
     , users : List User
+    , lastNameInput : String
     }
 
 
@@ -49,12 +51,14 @@ type alias User =
 type Msg
     = RequestUser
     | GotUser (Result Http.Error (List User))
+    | InputChanged String
 
 
-initialModel : { apiCallState : ApiCallState, users : List User }
+initialModel : Model
 initialModel =
     { apiCallState = Loading
     , users = []
+    , lastNameInput = ""
     }
 
 
@@ -90,6 +94,9 @@ update msg model =
                     ( { model | apiCallState = Failure }
                     , Cmd.none
                     )
+
+        InputChanged str ->
+            ( { model | lastNameInput = str }, Cmd.none )
 
 
 subscriptions : Model -> Sub Msg
@@ -136,6 +143,12 @@ view model =
             , E.padding 50
             ]
             [ header
+            , Input.text []
+                { onChange = InputChanged
+                , text = model.lastNameInput
+                , placeholder = Nothing
+                , label = Input.labelAbove [] (E.text "Last Name")
+                }
             , getUserButton
             , pageState
             , userList model

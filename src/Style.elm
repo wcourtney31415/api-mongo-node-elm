@@ -16,7 +16,7 @@ grey =
 
 green : E.Color
 green =
-    E.rgb 0 1 0
+    E.rgb255 2 183 2
 
 
 red : E.Color
@@ -36,7 +36,7 @@ btnGrey =
 
 purple : E.Color
 purple =
-    E.rgb255 163 138 236
+    E.rgb255 49 163 212
 
 
 shadow : E.Attribute msg
