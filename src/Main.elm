@@ -4,8 +4,9 @@ import Browser
 import RequestHandler exposing (getUser)
 import Types
     exposing
-        ( Model
-        , Msg
+        ( ApiCallState(..)
+        , Model
+        , Msg(..)
         )
 import View exposing (view)
 
@@ -22,7 +23,7 @@ main =
 
 initialModel : Model
 initialModel =
-    { apiCallState = Types.Loading
+    { apiCallState = AwaitingInput
     , users = []
     , lastNameInput = ""
     }
@@ -30,33 +31,33 @@ initialModel =
 
 init : () -> ( Model, Cmd Msg )
 init _ =
-    ( initialModel, getUser )
+    ( initialModel, Cmd.none )
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        Types.RequestUser ->
-            ( { model | apiCallState = Types.Loading }
+        RequestUser ->
+            ( { model | apiCallState = Loading }
             , getUser
             )
 
-        Types.GotUser result ->
+        GotUser result ->
             case result of
                 Ok users ->
                     ( { model
-                        | apiCallState = Types.Success
+                        | apiCallState = Success
                         , users = users
                       }
                     , Cmd.none
                     )
 
                 Err _ ->
-                    ( { model | apiCallState = Types.Failure }
+                    ( { model | apiCallState = Failure }
                     , Cmd.none
                     )
 
-        Types.InputChanged str ->
+        InputChanged str ->
             ( { model | lastNameInput = str }, Cmd.none )
 
 

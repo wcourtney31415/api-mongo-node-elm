@@ -1,6 +1,7 @@
 module RequestHandler exposing
     ( apiUrl
     , getUser
+    , myRequest
     , userDecoder
     , userListDecoder
     )
@@ -35,6 +36,7 @@ requestEncoder str =
     JE.object [ ( "lastName", JE.string str ) ]
 
 
+myRequest : String -> Cmd Msg
 myRequest str =
     Http.post
         { url = "http://localhost:80/postShowPeople"

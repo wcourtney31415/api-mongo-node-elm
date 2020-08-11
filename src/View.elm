@@ -1,6 +1,10 @@
 module View exposing (view)
 
 import Element as E
+    exposing
+        ( rgb
+        , rgb255
+        )
 import Element.Background as Background
 import Element.Border as Border
 import Element.Font as Font
@@ -34,6 +38,9 @@ view model =
                 Loading ->
                     ( "Contacting API...", S.blue )
 
+                AwaitingInput ->
+                    ( "Awaiting Input...", S.blue )
+
         col =
             Tuple.second tup
 
@@ -60,7 +67,9 @@ view model =
             ]
             [ VisualComponents.header
             , Input.text
-                []
+                [ Border.color <| rgb 0 0 0
+                , Background.color <| rgb255 58 58 58
+                ]
                 { onChange = InputChanged
                 , text = model.lastNameInput
                 , placeholder = Nothing

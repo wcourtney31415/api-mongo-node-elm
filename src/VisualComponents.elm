@@ -46,7 +46,7 @@ header =
         [ Font.size 40
         , Font.bold
         , E.centerX
-        , Font.color <| E.rgb 1 1 1
+        , Font.color <| E.rgb255 14 14 14
         , E.paddingEach
             { top = 0
             , bottom = 30

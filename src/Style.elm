@@ -35,7 +35,7 @@ red =
 
 blue : E.Color
 blue =
-    E.rgb 0 0 1
+    E.rgb255 39 102 156
 
 
 btnGrey : E.Color

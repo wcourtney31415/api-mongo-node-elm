@@ -12,6 +12,7 @@ type ApiCallState
     = Failure
     | Loading
     | Success
+    | AwaitingInput
 
 
 type alias Model =
