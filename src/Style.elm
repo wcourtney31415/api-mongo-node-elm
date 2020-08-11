@@ -1,4 +1,13 @@
-module Style exposing (black, blue, btnGrey, green, grey, purple, red, shadow)
+module Style exposing
+    ( black
+    , blue
+    , btnGrey
+    , green
+    , grey
+    , purple
+    , red
+    , shadow
+    )
 
 import Element as E
 import Element.Border as Border
