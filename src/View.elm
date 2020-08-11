@@ -75,7 +75,7 @@ view model =
                 , placeholder = Nothing
                 , label = Input.labelAbove [] (E.text "Last Name")
                 }
-            , getUserButton
+            , getUserButton model
             , pageState
             , userList model
             ]

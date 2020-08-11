@@ -32,3 +32,4 @@ type Msg
     = RequestUser
     | GotUser (Result Http.Error (List User))
     | InputChanged String
+    | RequestWithPost String

@@ -24,7 +24,7 @@ import Types
 
 apiUrl : String
 apiUrl =
-    "http://localhost:80/getShowPeople"
+    "http://localhost:80/postShowPeople"
 
 
 
@@ -40,7 +40,7 @@ myRequest : String -> Cmd Msg
 myRequest str =
     Http.post
         { url = "http://localhost:80/postShowPeople"
-        , body = Http.jsonBody <| requestEncoder str
+        , body = Http.jsonBody (requestEncoder str)
         , expect = Http.expectJson GotUser userListDecoder
         }
 

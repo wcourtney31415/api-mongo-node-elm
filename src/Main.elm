@@ -1,7 +1,7 @@
 module Main exposing (main)
 
 import Browser
-import RequestHandler exposing (getUser)
+import RequestHandler exposing (getUser, myRequest)
 import Types
     exposing
         ( ApiCallState(..)
@@ -57,8 +57,15 @@ update msg model =
                     , Cmd.none
                     )
 
+        RequestWithPost str ->
+            ( { model | apiCallState = Loading }
+            , myRequest str
+            )
+
         InputChanged str ->
-            ( { model | lastNameInput = str }, Cmd.none )
+            ( { model | lastNameInput = str }
+            , Cmd.none
+            )
 
 
 subscriptions : Model -> Sub Msg

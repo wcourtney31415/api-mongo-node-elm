@@ -83,6 +83,7 @@ app.post(linkPostPeople, (request, response) => {
       if (err) throw err;
       const dbo = db.db(dbName);
       const collection = dbo.collection(myColName);
+      console.log(request);
       const query = {
         lastName: request.body.lastName
       };

@@ -20,8 +20,12 @@ import Types
         )
 
 
-getUserButton : E.Element Msg
-getUserButton =
+
+-- getUserButton : Model -> E.Element Msg
+
+
+getUserButton : Model -> E.Element Msg
+getUserButton model =
     Input.button
         [ E.centerX
         , Background.color S.btnGrey
@@ -29,7 +33,7 @@ getUserButton =
         , Border.rounded 5
         , S.shadow
         ]
-        { onPress = Just RequestUser
+        { onPress = Just <| RequestWithPost model.lastNameInput
         , label =
             E.el
                 [ Font.size 20
