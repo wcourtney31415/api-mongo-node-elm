@@ -13,6 +13,7 @@ import Json.Decode as JsonDecoder
         , map2
         , string
         )
+import Json.Encode as JE
 import Types
     exposing
         ( Msg(..)
@@ -27,24 +28,22 @@ apiUrl =
 
 
 -- from here
---
--- requestEncoder : String -> JE.Value
--- requestEncoder str =
---     JE.object [ ( "lastName", JE.string str ) ]
---
---
--- myRequest : String -> Cmd Msg
--- myRequest str =
---     let
---         req =
---             Http.post
---                 "http://localhost:80/postShowPeople"
---                 (Http.jsonBody <| requestEncoder str)
---                 userListDecoder
---     in
---     Http.get UpcaseRequest req
---
---
+
+
+requestEncoder : String -> JE.Value
+requestEncoder str =
+    JE.object [ ( "lastName", JE.string str ) ]
+
+
+myRequest str =
+    Http.post
+        { url = "http://localhost:80/postShowPeople"
+        , body = Http.jsonBody <| requestEncoder str
+        , expect = Http.expectJson GotUser userListDecoder
+        }
+
+
+
 -- to here
 
 
