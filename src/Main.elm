@@ -1,7 +1,7 @@
 module Main exposing (main)
 
 import Browser
-import RequestHandler exposing (getUser, myRequest)
+import RequestHandler exposing (myRequest)
 import Types
     exposing
         ( ApiCallState(..)
@@ -37,12 +37,7 @@ init _ =
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        RequestUser ->
-            ( { model | apiCallState = Loading }
-            , getUser
-            )
-
-        GotUser result ->
+        GotUsers result ->
             case result of
                 Ok users ->
                     ( { model
@@ -57,12 +52,12 @@ update msg model =
                     , Cmd.none
                     )
 
-        RequestWithPost str ->
+        RequestUsers user ->
             ( { model | apiCallState = Loading }
-            , myRequest str
+            , myRequest user
             )
 
-        InputChanged str ->
+        LastNameBoxChanged str ->
             ( { model | lastNameInput = str }
             , Cmd.none
             )

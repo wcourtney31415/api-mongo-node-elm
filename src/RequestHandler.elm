@@ -44,7 +44,7 @@ myRequest user =
     Http.post
         { url = "http://localhost:80/postShowPeople"
         , body = Http.jsonBody (requestEncoder user)
-        , expect = Http.expectJson GotUser userListDecoder
+        , expect = Http.expectJson GotUsers userListDecoder
         }
 
 
@@ -56,7 +56,7 @@ myRequest user =
 --         , headers = [ Http.header "Content-Type" "application/x-www-form-urlencoded" ]
 --         , url = "http://localhost:80/postShowPeople"
 --         , body = Http.jsonBody (requestEncoder user)
---         , expect = Http.expectJson GotUser userListDecoder
+--         , expect = Http.expectJson GotUsers userListDecoder
 --         , timeout = Nothing
 --         , tracker = Nothing
 --         }
@@ -67,7 +67,7 @@ getUser : Cmd Msg
 getUser =
     Http.get
         { url = apiUrl
-        , expect = Http.expectJson GotUser userListDecoder
+        , expect = Http.expectJson GotUsers userListDecoder
         }
 
 

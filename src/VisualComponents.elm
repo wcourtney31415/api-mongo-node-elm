@@ -36,7 +36,7 @@ getUsersButton model =
                 E.text "Retrieve User(s)"
 
         onClickMsg =
-            RequestWithPost
+            RequestUsers
                 { firstName = ""
                 , lastName = model.lastNameInput
                 }
@@ -151,7 +151,7 @@ lastNameTextbox model =
         [ Border.color <| rgb 0 0 0
         , Background.color <| rgb255 58 58 58
         ]
-        { onChange = InputChanged
+        { onChange = LastNameBoxChanged
         , text = model.lastNameInput
         , placeholder = Nothing
         , label = Input.labelAbove [] (E.text "Last Name")

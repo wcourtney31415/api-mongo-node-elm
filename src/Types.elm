@@ -29,7 +29,6 @@ type alias User =
 
 
 type Msg
-    = RequestUser
-    | GotUser (Result Http.Error (List User))
-    | InputChanged String
-    | RequestWithPost User
+    = GotUsers (Result Http.Error (List User))
+    | LastNameBoxChanged String
+    | RequestUsers User
