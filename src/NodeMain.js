@@ -19,10 +19,8 @@ const dbName = "MyDb"
 const myColName = "users"
 
 //Links
-const linkGetPeople = '/getShowPeople';
-const linkNonDB = '/nonDatabaseRequest';
-const linkPostPeople = '/postShowPeople';
-const links = [linkGetPeople, linkNonDB, linkPostPeople]
+const linkPostPeople = '/findusers';
+const links = [linkPostPeople]
 
 app.get('/', (request, response) => {
   const homepage = getFile('index.html');

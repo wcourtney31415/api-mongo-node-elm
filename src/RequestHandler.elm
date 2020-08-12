@@ -23,7 +23,7 @@ import Types
 requestUsers : User -> Cmd Msg
 requestUsers user =
     Http.post
-        { url = "/postShowPeople"
+        { url = "/findusers"
         , body = Http.jsonBody (userEncoder user)
         , expect = Http.expectJson GotUsers userListDecoder
         }
