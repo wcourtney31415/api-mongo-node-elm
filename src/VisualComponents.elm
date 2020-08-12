@@ -1,9 +1,8 @@
 module VisualComponents exposing
-    ( fieldToRow
-    , getUserButton
+    ( getUsersButton
     , header
+    , resultCount
     , userList
-    , userToText
     )
 
 import Element as E
@@ -11,7 +10,7 @@ import Element.Background as Background
 import Element.Border as Border
 import Element.Font as Font
 import Element.Input as Input
-import Style as S
+import Style
 import Types
     exposing
         ( Model
@@ -20,27 +19,32 @@ import Types
         )
 
 
-
--- getUserButton : Model -> E.Element Msg
-
-
-getUserButton : Model -> E.Element Msg
-getUserButton model =
-    Input.button
-        [ E.centerX
-        , Background.color S.btnGrey
-        , E.padding 10
-        , Border.rounded 5
-        , S.shadow
-        ]
-        { onPress = Just <| RequestWithPost { firstName = "", lastName = model.lastNameInput }
-        , label =
+getUsersButton : Model -> E.Element Msg
+getUsersButton model =
+    let
+        myLabel =
             E.el
                 [ Font.size 20
                 , Font.bold
                 ]
             <|
-                E.text "Retrieve User"
+                E.text "Retrieve User(s)"
+
+        onClickMsg =
+            RequestWithPost
+                { firstName = ""
+                , lastName = model.lastNameInput
+                }
+    in
+    Input.button
+        [ E.centerX
+        , Background.color Style.btnGrey
+        , E.padding 10
+        , Border.rounded 5
+        , Style.shadow
+        ]
+        { onPress = Just onClickMsg
+        , label = myLabel
         }
 
 
@@ -64,34 +68,73 @@ header =
 
 userList : Model -> E.Element Msg
 userList model =
+    let
+        usersAsElements =
+            List.map userToElement model.users
+    in
     E.column
         [ E.spacing 10
         ]
-        (List.map userToText model.users)
+    <|
+        usersAsElements
 
 
-userToText : User -> E.Element msg
-userToText user =
+userToElement : User -> E.Element msg
+userToElement user =
+    let
+        firstName =
+            fieldToRow
+                ( "First firstName", user.firstName )
+
+        lastName =
+            fieldToRow
+                ( "Last firstName", user.lastName )
+    in
     E.el
-        [ Background.color S.purple
+        [ Background.color Style.purple
         , Border.rounded 10
         , E.padding 10
-        , S.shadow
+        , Style.shadow
         ]
     <|
-        E.column [ E.spacing 10 ]
-            [ fieldToRow ( "First firstName", user.firstName )
-            , fieldToRow ( "Last firstName", user.lastName )
+        E.column
+            [ E.spacing 10 ]
+            [ firstName
+            , lastName
             ]
+
+
+resultCount : Model -> E.Element Msg
+resultCount model =
+    let
+        userCount =
+            List.length model.users
+
+        userCountStr =
+            String.fromInt userCount
+
+        userCountText =
+            "Found " ++ userCountStr ++ " user(s)."
+    in
+    E.el
+        [ E.centerX
+        ]
+    <|
+        E.text userCountText
 
 
 fieldToRow : ( String, String ) -> E.Element msg
 fieldToRow ( fieldName, val ) =
+    let
+        textA =
+            fieldName ++ ":"
+
+        partA =
+            E.el [ Font.bold ] <| E.text textA
+
+        partB =
+            E.text val
+    in
     E.row
         [ E.spacing 5 ]
-        [ E.el [ Font.bold ] <|
-            E.text <|
-                fieldName
-                    ++ ":"
-        , E.text val
-        ]
+        [ partA, partB ]

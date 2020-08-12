@@ -19,7 +19,8 @@ import Types
         )
 import VisualComponents
     exposing
-        ( getUserButton
+        ( getUsersButton
+        , resultCount
         , userList
         )
 
@@ -30,7 +31,7 @@ view model =
         tup =
             case model.apiCallState of
                 Success ->
-                    ( "Successfully retrieved user(s).", S.green )
+                    ( "Success.", S.green )
 
                 Failure ->
                     ( "Failed to retrieve user(s).", S.red )
@@ -75,8 +76,9 @@ view model =
                 , placeholder = Nothing
                 , label = Input.labelAbove [] (E.text "Last Name")
                 }
-            , getUserButton model
+            , getUsersButton model
             , pageState
+            , resultCount model
             , userList model
             ]
         )
