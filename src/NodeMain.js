@@ -21,9 +21,14 @@ const linkPostPeople = '/postShowPeople';
 const links = [linkGetPeople, linkNonDB, linkPostPeople]
 
 
-app.use(bodyParser.urlencoded({
-  extended: true
-}));
+// app.use(bodyParser.urlencoded({
+//   extended: false
+// }))
+//
+// app.use(bodyParser.json())
+
+var jsonParser = bodyParser.json()
+
 
 app.get(linkGetPeople, (request, response) => {
   MongoClient.connect(mongoUrl, function(err, db) {
@@ -75,28 +80,25 @@ function logPageServed(path) {
   console.log(`Served up: ${fullAddress}`);
 }
 
-app.post(linkPostPeople, (request, response) => {
+app.post(linkPostPeople, jsonParser, (request, response) => {
   body = request.body
-  token = parseInt(body.token)
-  if (token === 5) {
-    MongoClient.connect(mongoUrl, function(err, db) {
+  MongoClient.connect(mongoUrl, function(err, db) {
+    if (err) throw err;
+    const dbo = db.db(dbName);
+    const collection = dbo.collection(myColName);
+    const providedLastName = body.lastName;
+    console.log("Request: " + body);
+    const query = {
+      lastName: providedLastName
+    };
+    const queryResults = collection.find(query)
+    queryResults.toArray(function(err, result) {
       if (err) throw err;
-      const dbo = db.db(dbName);
-      const collection = dbo.collection(myColName);
-      console.log(request);
-      const query = {
-        lastName: request.body.lastName
-      };
-      const queryResults = collection.find(query)
-      queryResults.toArray(function(err, result) {
-        if (err) throw err;
-        response.json(result);
-        db.close();
-      });
+      console.log(`Response: ${result}`);
+      response.json(result);
+      db.close();
     });
-  } else {
-    response.json("[]");
-  }
+  });
   logPageServed(linkPostPeople);
 });
 

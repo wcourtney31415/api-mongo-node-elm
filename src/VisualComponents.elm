@@ -33,7 +33,7 @@ getUserButton model =
         , Border.rounded 5
         , S.shadow
         ]
-        { onPress = Just <| RequestWithPost model.lastNameInput
+        { onPress = Just <| RequestWithPost { firstName = "", lastName = model.lastNameInput }
         , label =
             E.el
                 [ Font.size 20

@@ -31,21 +31,35 @@ apiUrl =
 -- from here
 
 
-requestEncoder : String -> JE.Value
-requestEncoder str =
-    JE.object [ ( "lastName", JE.string str ) ]
+requestEncoder : User -> JE.Value
+requestEncoder user =
+    JE.object
+        [ ( "firstName", JE.string user.firstName )
+        , ( "lastName", JE.string user.lastName )
+        ]
 
 
-myRequest : String -> Cmd Msg
-myRequest str =
+myRequest : User -> Cmd Msg
+myRequest user =
     Http.post
         { url = "http://localhost:80/postShowPeople"
-        , body = Http.jsonBody (requestEncoder str)
+        , body = Http.jsonBody (requestEncoder user)
         , expect = Http.expectJson GotUser userListDecoder
         }
 
 
 
+-- myRequest : User -> Cmd Msg
+-- myRequest user =
+--     Http.request
+--         { method = "POST"
+--         , headers = [ Http.header "Content-Type" "application/x-www-form-urlencoded" ]
+--         , url = "http://localhost:80/postShowPeople"
+--         , body = Http.jsonBody (requestEncoder user)
+--         , expect = Http.expectJson GotUser userListDecoder
+--         , timeout = Nothing
+--         , tracker = Nothing
+--         }
 -- to here
 
 
@@ -57,11 +71,21 @@ getUser =
         }
 
 
+firstNameDecoder : Decoder String
+firstNameDecoder =
+    field "firstName" string
+
+
+lastNameDecoder : Decoder String
+lastNameDecoder =
+    field "lastName" string
+
+
 userDecoder : Decoder User
 userDecoder =
     JsonDecoder.map2 User
-        (field "firstName" string)
-        (field "lastName" string)
+        firstNameDecoder
+        lastNameDecoder
 
 
 userListDecoder : Decoder (List User)
