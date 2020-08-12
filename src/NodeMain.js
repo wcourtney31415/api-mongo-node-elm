@@ -6,6 +6,10 @@ const bodyParser = require('body-parser');
 const app = express()
 const jsonParser = bodyParser.json()
 
+//Add timestamps to console logs.
+require('console-stamp')(console, '[HH:MM:ss.l]');
+
+
 //Webserver
 const host = 'localhost'
 const httpPort = 80
