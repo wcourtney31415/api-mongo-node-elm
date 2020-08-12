@@ -1,7 +1,7 @@
 module Main exposing (main)
 
 import Browser
-import RequestHandler exposing (myRequest)
+import RequestHandler exposing (requestUsers)
 import Types
     exposing
         ( ApiCallState(..)
@@ -54,7 +54,7 @@ update msg model =
 
         RequestUsers user ->
             ( { model | apiCallState = Loading }
-            , myRequest user
+            , requestUsers user
             )
 
         LastNameBoxChanged str ->

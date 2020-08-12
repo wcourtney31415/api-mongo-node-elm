@@ -1,20 +1,18 @@
 module RequestHandler exposing
-    ( apiUrl
-    , getUser
-    , myRequest
+    ( requestUsers
     , userDecoder
     , userListDecoder
     )
 
 import Http
-import Json.Decode as JsonDecoder
+import Json.Decode as Decode
     exposing
         ( Decoder
         , field
         , map2
         , string
         )
-import Json.Encode as JE
+import Json.Encode as Encode
 import Types
     exposing
         ( Msg(..)
@@ -22,72 +20,39 @@ import Types
         )
 
 
-apiUrl : String
-apiUrl =
-    "http://localhost:80/postShowPeople"
-
-
-
--- from here
-
-
-requestEncoder : User -> JE.Value
-requestEncoder user =
-    JE.object
-        [ ( "firstName", JE.string user.firstName )
-        , ( "lastName", JE.string user.lastName )
-        ]
-
-
-myRequest : User -> Cmd Msg
-myRequest user =
+requestUsers : User -> Cmd Msg
+requestUsers user =
     Http.post
-        { url = "http://localhost:80/postShowPeople"
-        , body = Http.jsonBody (requestEncoder user)
+        { url = "/postShowPeople"
+        , body = Http.jsonBody (userEncoder user)
         , expect = Http.expectJson GotUsers userListDecoder
         }
 
 
-
--- myRequest : User -> Cmd Msg
--- myRequest user =
---     Http.request
---         { method = "POST"
---         , headers = [ Http.header "Content-Type" "application/x-www-form-urlencoded" ]
---         , url = "http://localhost:80/postShowPeople"
---         , body = Http.jsonBody (requestEncoder user)
---         , expect = Http.expectJson GotUsers userListDecoder
---         , timeout = Nothing
---         , tracker = Nothing
---         }
--- to here
-
-
-getUser : Cmd Msg
-getUser =
-    Http.get
-        { url = apiUrl
-        , expect = Http.expectJson GotUsers userListDecoder
-        }
-
-
-firstNameDecoder : Decoder String
-firstNameDecoder =
-    field "firstName" string
-
-
-lastNameDecoder : Decoder String
-lastNameDecoder =
-    field "lastName" string
+userEncoder : User -> Encode.Value
+userEncoder user =
+    Encode.object
+        [ ( "firstName", Encode.string user.firstName )
+        , ( "lastName", Encode.string user.lastName )
+        ]
 
 
 userDecoder : Decoder User
 userDecoder =
-    JsonDecoder.map2 User
+    let
+        firstNameDecoder : Decoder String
+        firstNameDecoder =
+            field "firstName" string
+
+        lastNameDecoder : Decoder String
+        lastNameDecoder =
+            field "lastName" string
+    in
+    Decode.map2 User
         firstNameDecoder
         lastNameDecoder
 
 
 userListDecoder : Decoder (List User)
 userListDecoder =
-    JsonDecoder.list userDecoder
+    Decode.list userDecoder
