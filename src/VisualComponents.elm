@@ -1,11 +1,16 @@
 module VisualComponents exposing
     ( getUsersButton
     , header
+    , lastNameTextbox
     , resultCount
     , userList
     )
 
 import Element as E
+    exposing
+        ( rgb
+        , rgb255
+        )
 import Element.Background as Background
 import Element.Border as Border
 import Element.Font as Font
@@ -138,3 +143,16 @@ fieldToRow ( fieldName, val ) =
     E.row
         [ E.spacing 5 ]
         [ partA, partB ]
+
+
+lastNameTextbox : Model -> E.Element Msg
+lastNameTextbox model =
+    Input.text
+        [ Border.color <| rgb 0 0 0
+        , Background.color <| rgb255 58 58 58
+        ]
+        { onChange = InputChanged
+        , text = model.lastNameInput
+        , placeholder = Nothing
+        , label = Input.labelAbove [] (E.text "Last Name")
+        }

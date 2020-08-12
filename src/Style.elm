@@ -1,11 +1,12 @@
 module Style exposing
     ( black
-    , blue
     , btnGrey
-    , green
-    , grey
+    , colorContacting
+    , colorFailure
+    , colorIdle
+    , colorSuccess
+    , pageBackground
     , purple
-    , red
     , shadow
     )
 
@@ -18,23 +19,28 @@ black =
     E.rgb 0 0 0
 
 
-grey : E.Color
-grey =
+pageBackground : E.Color
+pageBackground =
     E.rgb 0.3 0.3 0.3
 
 
-green : E.Color
-green =
+colorSuccess : E.Color
+colorSuccess =
     E.rgb255 2 183 2
 
 
-red : E.Color
-red =
+colorFailure : E.Color
+colorFailure =
     E.rgb 1 0 0
 
 
-blue : E.Color
-blue =
+colorContacting : E.Color
+colorContacting =
+    E.rgb255 39 102 156
+
+
+colorIdle : E.Color
+colorIdle =
     E.rgb255 39 102 156
 
 
