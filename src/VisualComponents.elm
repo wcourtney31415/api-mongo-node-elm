@@ -43,7 +43,7 @@ getUsersButton model =
     in
     Input.button
         [ E.centerX
-        , Background.color Style.btnGrey
+        , Background.color Style.colorButton
         , E.padding 10
         , Border.rounded 5
         , Style.shadow
@@ -96,7 +96,8 @@ userToElement user =
                 ( "Last firstName", user.lastName )
     in
     E.el
-        [ Background.color Style.purple
+        [ Background.color
+            Style.userBoxBackground
         , Border.rounded 10
         , E.padding 10
         , Style.shadow

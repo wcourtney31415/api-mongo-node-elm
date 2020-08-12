@@ -1,13 +1,13 @@
 module Style exposing
     ( black
-    , btnGrey
+    , colorButton
     , colorContacting
     , colorFailure
     , colorIdle
     , colorSuccess
     , pageBackground
-    , purple
     , shadow
+    , userBoxBackground
     )
 
 import Element as E
@@ -44,13 +44,13 @@ colorIdle =
     E.rgb255 39 102 156
 
 
-btnGrey : E.Color
-btnGrey =
+colorButton : E.Color
+colorButton =
     E.rgb255 219 219 219
 
 
-purple : E.Color
-purple =
+userBoxBackground : E.Color
+userBoxBackground =
     E.rgb255 49 163 212
 
 
