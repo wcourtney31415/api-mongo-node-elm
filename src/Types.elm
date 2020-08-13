@@ -21,6 +21,7 @@ type alias Model =
     , firstNameInput : String
     , lastNameInput : String
     , emailInput : String
+    , phoneInput : String
     }
 
 
@@ -36,3 +37,4 @@ type Msg
     | LastNameBoxChanged String
     | RequestUsers User
     | EmailBoxChanged String
+    | PhoneBoxChanged String

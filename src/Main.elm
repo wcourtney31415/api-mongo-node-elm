@@ -28,6 +28,7 @@ initialModel =
     , firstNameInput = ""
     , lastNameInput = ""
     , emailInput = ""
+    , phoneInput = ""
     }
 
 
@@ -71,6 +72,11 @@ update msg model =
 
         EmailBoxChanged str ->
             ( { model | emailInput = str }
+            , Cmd.none
+            )
+
+        PhoneBoxChanged str ->
+            ( { model | phoneInput = str }
             , Cmd.none
             )
 

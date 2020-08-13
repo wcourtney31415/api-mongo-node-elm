@@ -56,10 +56,18 @@ fields model =
             , placeholder = Nothing
             , label = Input.labelAbove [] (E.text "Email")
             }
+
+        phone =
+            { onChange = PhoneBoxChanged
+            , text = model.phoneInput
+            , placeholder = Nothing
+            , label = Input.labelAbove [] (E.text "Phone")
+            }
     in
     [ firstName
     , lastName
     , email
+    , phone
     ]
 
 
