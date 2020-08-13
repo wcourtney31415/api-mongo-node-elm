@@ -1,4 +1,4 @@
-module FieldColumn exposing (fieldColumn, makeFieldElement)
+module FieldColumn exposing (fieldColumn)
 
 import Element as E
 import Element.Background as Background
@@ -13,8 +13,12 @@ import Types
         )
 
 
-makeFieldElement : (String -> Msg) -> String -> String -> E.Element Msg
-makeFieldElement onChange text labelStr =
+type alias FieldSeed =
+    ( String, String, String -> Msg )
+
+
+makeFieldElement : FieldSeed -> E.Element Msg
+makeFieldElement ( labelStr, text, onChange ) =
     Input.text
         [ Border.color Style.black
         , Background.color Style.colorInput
@@ -33,37 +37,31 @@ makeFieldElement onChange text labelStr =
 
 fieldColumn : Model -> E.Element Msg
 fieldColumn model =
-    let
-        firstName =
-            makeFieldElement
-                FirstNameBoxChanged
-                model.firstNameInput
-                "First Name"
-
-        lastName =
-            makeFieldElement
-                LastNameBoxChanged
-                model.lastNameInput
-                "Last Name"
-
-        email =
-            makeFieldElement
-                EmailBoxChanged
-                model.emailInput
-                "Email"
-
-        phone =
-            makeFieldElement
-                PhoneBoxChanged
-                model.phoneInput
-                "Phone"
-    in
     E.column
         [ E.spacing 20
         , Font.color Style.white
         ]
-        [ firstName
-        , lastName
-        , email
-        , phone
-        ]
+    <|
+        List.map makeFieldElement <|
+            fieldList model
+
+
+fieldList : Model -> List FieldSeed
+fieldList model =
+    [ ( "First Name"
+      , model.firstNameInput
+      , FirstNameBoxChanged
+      )
+    , ( "Last Name"
+      , model.lastNameInput
+      , LastNameBoxChanged
+      )
+    , ( "Email"
+      , model.emailInput
+      , EmailBoxChanged
+      )
+    , ( "Phone"
+      , model.phoneInput
+      , PhoneBoxChanged
+      )
+    ]
