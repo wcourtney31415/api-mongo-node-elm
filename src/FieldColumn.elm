@@ -1,14 +1,11 @@
-module FieldColumn exposing (FieldRecord, fieldColumn, fieldToTextbox, fields)
+module FieldColumn exposing (fieldColumn, makeFieldElement)
 
 import Element as E
-    exposing
-        ( rgb
-        , rgb255
-        , text
-        )
 import Element.Background as Background
 import Element.Border as Border
+import Element.Font as Font
 import Element.Input as Input
+import Style
 import Types
     exposing
         ( Model
@@ -16,65 +13,57 @@ import Types
         )
 
 
-fieldToTextbox : FieldRecord -> E.Element Msg
-fieldToTextbox record =
+makeFieldElement : (String -> Msg) -> String -> String -> E.Element Msg
+makeFieldElement onChange text labelStr =
     Input.text
-        [ Border.color <| rgb 0 0 0
-        , Background.color <| rgb255 58 58 58
+        [ Border.color Style.black
+        , Background.color Style.colorInput
         ]
-        record
-
-
-type alias FieldRecord =
-    { onChange : String -> Msg
-    , text : String
-    , placeholder : Maybe (Input.Placeholder Msg)
-    , label : Input.Label Msg
-    }
-
-
-fields : Model -> List FieldRecord
-fields model =
-    let
-        firstName =
-            { onChange = FirstNameBoxChanged
-            , text = model.firstNameInput
-            , placeholder = Nothing
-            , label = Input.labelAbove [] (E.text "First Name")
-            }
-
-        lastName =
-            { onChange = LastNameBoxChanged
-            , text = model.lastNameInput
-            , placeholder = Nothing
-            , label = Input.labelAbove [] (E.text "Last Name")
-            }
-
-        email =
-            { onChange = EmailBoxChanged
-            , text = model.emailInput
-            , placeholder = Nothing
-            , label = Input.labelAbove [] (E.text "Email")
-            }
-
-        phone =
-            { onChange = PhoneBoxChanged
-            , text = model.phoneInput
-            , placeholder = Nothing
-            , label = Input.labelAbove [] (E.text "Phone")
-            }
-    in
-    [ firstName
-    , lastName
-    , email
-    , phone
-    ]
+        { onChange = onChange
+        , text = text
+        , placeholder = Nothing
+        , label =
+            Input.labelAbove
+                [ Font.bold
+                ]
+            <|
+                E.text labelStr
+        }
 
 
 fieldColumn : Model -> E.Element Msg
 fieldColumn model =
+    let
+        firstName =
+            makeFieldElement
+                FirstNameBoxChanged
+                model.firstNameInput
+                "First Name"
+
+        lastName =
+            makeFieldElement
+                LastNameBoxChanged
+                model.lastNameInput
+                "Last Name"
+
+        email =
+            makeFieldElement
+                EmailBoxChanged
+                model.emailInput
+                "Email"
+
+        phone =
+            makeFieldElement
+                PhoneBoxChanged
+                model.phoneInput
+                "Phone"
+    in
     E.column
         [ E.spacing 20
+        , Font.color Style.white
         ]
-    <|
-        List.map fieldToTextbox (fields model)
+        [ firstName
+        , lastName
+        , email
+        , phone
+        ]

@@ -1,10 +1,6 @@
 module VisualComponents exposing (fieldToRow, getUsersButton, header, pageState, resultCount, userList, userToElement)
 
 import Element as E
-    exposing
-        ( rgb
-        , rgb255
-        )
 import Element.Background as Background
 import Element.Border as Border
 import Element.Font as Font
@@ -54,7 +50,9 @@ header =
         [ Font.size 40
         , Font.bold
         , E.centerX
-        , Font.color <| E.rgb255 14 14 14
+
+        -- , Font.color <| E.rgb255 14 14 14
+        , Font.color Style.white
         , E.paddingEach
             { top = 0
             , bottom = 30
@@ -63,7 +61,7 @@ header =
             }
         ]
     <|
-        E.text "Front End!"
+        E.text "Search Users"
 
 
 userList : Model -> E.Element Msg
@@ -74,6 +72,7 @@ userList model =
     in
     E.column
         [ E.spacing 10
+        , E.width E.fill
         ]
     <|
         usersAsElements
@@ -96,6 +95,7 @@ userToElement user =
         , Border.rounded 10
         , E.padding 10
         , Style.shadow
+        , E.width E.fill
         ]
     <|
         E.column
@@ -119,6 +119,9 @@ resultCount model =
     in
     E.el
         [ E.centerX
+        , Background.color <| E.rgba 0 1 0 0
+        , Font.color Style.white
+        , Font.bold
         ]
     <|
         E.text userCountText

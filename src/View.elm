@@ -3,7 +3,6 @@ module View exposing (view)
 import Element as E
 import Element.Background as Background
 import Element.Border as Border
-import Element.Font as Font
 import FieldColumn exposing (fieldColumn)
 import Html exposing (Html)
 import Style
@@ -36,9 +35,31 @@ view model =
             , E.padding 50
             ]
             [ header
-            , fieldColumn model
-            , getUsersButton model
             , pageState model
-            , resultCount model
-            , userList model
+            , E.row
+                [ E.spacing 20
+                , E.centerX
+                , Background.color <| E.rgb255 97 97 97
+                , Border.rounded 15
+                , Style.shadow
+                , E.padding <| 20
+                ]
+                [ E.column
+                    [ Background.color <| E.rgba 1 0 0 0
+                    , E.height E.fill
+                    , E.spacing 20
+                    ]
+                    [ fieldColumn model
+                    , getUsersButton model
+                    ]
+                , E.column
+                    [ Background.color <| E.rgba 0 1 0 0
+                    , E.height E.fill
+                    , E.spacing 20
+                    , E.width E.fill
+                    ]
+                    [ resultCount model
+                    , userList model
+                    ]
+                ]
             ]

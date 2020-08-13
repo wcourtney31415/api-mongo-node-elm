@@ -1,14 +1,4 @@
-module Style exposing
-    ( black
-    , colorButton
-    , colorContacting
-    , colorFailure
-    , colorIdle
-    , colorSuccess
-    , pageBackground
-    , shadow
-    , userBoxBackground
-    )
+module Style exposing (black, colorButton, colorContacting, colorFailure, colorIdle, colorInput, colorSuccess, pageBackground, shadow, userBoxBackground, white)
 
 import Element as E
 import Element.Border as Border
@@ -17,6 +7,16 @@ import Element.Border as Border
 black : E.Color
 black =
     E.rgb 0 0 0
+
+
+white : E.Color
+white =
+    E.rgb 1 1 1
+
+
+colorInput : E.Color
+colorInput =
+    E.rgb255 77 77 77
 
 
 pageBackground : E.Color
