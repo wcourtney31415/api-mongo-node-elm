@@ -1,10 +1,4 @@
-module VisualComponents exposing
-    ( getUsersButton
-    , header
-    , lastNameTextbox
-    , resultCount
-    , userList
-    )
+module VisualComponents exposing (fieldToRow, getUsersButton, header, pageState, resultCount, userList, userToElement)
 
 import Element as E
     exposing
@@ -18,7 +12,8 @@ import Element.Input as Input
 import Style
 import Types
     exposing
-        ( Model
+        ( ApiCallState(..)
+        , Model
         , Msg(..)
         , User
         )
@@ -146,14 +141,30 @@ fieldToRow ( fieldName, val ) =
         [ partA, partB ]
 
 
-lastNameTextbox : Model -> E.Element Msg
-lastNameTextbox model =
-    Input.text
-        [ Border.color <| rgb 0 0 0
-        , Background.color <| rgb255 58 58 58
+pageState : Model -> E.Element Msg
+pageState model =
+    let
+        ( callState, callStateColor ) =
+            case model.apiCallState of
+                Success ->
+                    ( "Success.", Style.colorSuccess )
+
+                Failure ->
+                    ( "Failed to retrieve user(s).", Style.colorFailure )
+
+                Loading ->
+                    ( "Contacting API...", Style.colorContacting )
+
+                AwaitingInput ->
+                    ( "Awaiting Input...", Style.colorIdle )
+    in
+    E.el
+        [ E.centerX
+        , Background.color callStateColor
+        , E.padding 10
+        , Font.bold
+        , Border.rounded 5
+        , Style.shadow
         ]
-        { onChange = LastNameBoxChanged
-        , text = model.lastNameInput
-        , placeholder = Nothing
-        , label = Input.labelAbove [] (E.text "Last Name")
-        }
+    <|
+        E.text callState

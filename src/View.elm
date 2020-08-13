@@ -4,6 +4,7 @@ import Element as E
 import Element.Background as Background
 import Element.Border as Border
 import Element.Font as Font
+import FieldColumn exposing (fieldColumn)
 import Html exposing (Html)
 import Style
 import Types
@@ -16,7 +17,7 @@ import VisualComponents
     exposing
         ( getUsersButton
         , header
-        , lastNameTextbox
+        , pageState
         , resultCount
         , userList
         )
@@ -35,38 +36,9 @@ view model =
             , E.padding 50
             ]
             [ header
-            , lastNameTextbox model
+            , fieldColumn model
             , getUsersButton model
             , pageState model
             , resultCount model
             , userList model
             ]
-
-
-pageState : Model -> E.Element Msg
-pageState model =
-    let
-        ( callState, callStateColor ) =
-            case model.apiCallState of
-                Success ->
-                    ( "Success.", Style.colorSuccess )
-
-                Failure ->
-                    ( "Failed to retrieve user(s).", Style.colorFailure )
-
-                Loading ->
-                    ( "Contacting API...", Style.colorContacting )
-
-                AwaitingInput ->
-                    ( "Awaiting Input...", Style.colorIdle )
-    in
-    E.el
-        [ E.centerX
-        , Background.color callStateColor
-        , E.padding 10
-        , Font.bold
-        , Border.rounded 5
-        , Style.shadow
-        ]
-    <|
-        E.text callState

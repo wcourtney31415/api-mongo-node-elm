@@ -25,7 +25,9 @@ initialModel : Model
 initialModel =
     { apiCallState = AwaitingInput
     , users = []
+    , firstNameInput = ""
     , lastNameInput = ""
+    , emailInput = ""
     }
 
 
@@ -57,8 +59,18 @@ update msg model =
             , requestUsers user
             )
 
+        FirstNameBoxChanged str ->
+            ( { model | firstNameInput = str }
+            , Cmd.none
+            )
+
         LastNameBoxChanged str ->
             ( { model | lastNameInput = str }
+            , Cmd.none
+            )
+
+        EmailBoxChanged str ->
+            ( { model | emailInput = str }
             , Cmd.none
             )
 
