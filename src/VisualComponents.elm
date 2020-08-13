@@ -84,11 +84,11 @@ userToElement user =
     let
         firstName =
             fieldToRow
-                ( "First firstName", user.firstName )
+                ( "First name", user.firstName )
 
         lastName =
             fieldToRow
-                ( "Last firstName", user.lastName )
+                ( "Last name", user.lastName )
     in
     E.el
         [ Background.color
