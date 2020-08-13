@@ -28,7 +28,7 @@ getUsersButton model =
 
         onClickMsg =
             RequestUsers
-                { firstName = ""
+                { firstName = model.firstNameInput
                 , lastName = model.lastNameInput
                 }
     in

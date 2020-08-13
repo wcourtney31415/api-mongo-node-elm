@@ -39,9 +39,15 @@ app.post(linkPostPeople, jsonParser, (request, response) => {
     const dbo = db.db(dbName);
     const collection = dbo.collection(myColName);
     const providedLastName = body.lastName;
-    const query = {
-      lastName: providedLastName
-    };
+    const providedFirstName = body.firstName;
+    const providedPhone = body.phone
+    const query = {};
+    if (providedFirstName !== "") {
+      query.firstName = providedFirstName;
+    }
+    if (providedLastName !== "") {
+      query.lastName = providedLastName;
+    }
     const queryResults = collection.find(query)
     queryResults.toArray(function(err, result) {
       if (err) throw err;
