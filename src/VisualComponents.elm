@@ -115,8 +115,15 @@ resultCount model =
         userCountStr =
             String.fromInt userCount
 
+        plural =
+            if userCount == 1 then
+                " user."
+
+            else
+                " users."
+
         userCountText =
-            "Found " ++ userCountStr ++ " user(s)."
+            "Found " ++ userCountStr ++ plural
     in
     E.el
         [ E.centerX
