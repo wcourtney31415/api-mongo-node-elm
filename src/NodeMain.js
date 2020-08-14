@@ -32,26 +32,27 @@ app.get('/', (request, response) => {
   logPageServed("");
 })
 
+function searchWith(json) {
+  const query = {};
+  if (json.firstName !== "") {
+    query.firstName = json.firstName;
+  }
+  if (json.lastName !== "") {
+    query.lastName = json.lastName;
+  }
+  if (json.email !== "") {
+    query.email = json.email;
+  }
+  return query;
+}
+
 app.post(linkPostPeople, jsonParser, (request, response) => {
   body = request.body
-  console.log(body);
   MongoClient.connect(mongoUrl, function(err, db) {
     if (err) throw err;
     const dbo = db.db(dbName);
     const collection = dbo.collection(myColName);
-    const providedLastName = body.lastName;
-    const providedFirstName = body.firstName;
-    const providedEmail = body.email;
-    const query = {};
-    if (providedFirstName !== "") {
-      query.firstName = providedFirstName;
-    }
-    if (providedLastName !== "") {
-      query.lastName = providedLastName;
-    }
-    if (providedEmail !== "") {
-      query.email = providedEmail;
-    }
+    const query = searchWith(body);
     const queryResults = collection.find(query)
     queryResults.toArray(function(err, result) {
       if (err) throw err;
