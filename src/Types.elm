@@ -2,6 +2,7 @@ module Types exposing
     ( ApiCallState(..)
     , Model
     , Msg(..)
+    , Textbox(..)
     , User
     )
 
@@ -18,10 +19,12 @@ type ApiCallState
 type alias Model =
     { apiCallState : ApiCallState
     , users : List User
-    , firstNameInput : String
-    , lastNameInput : String
-    , emailInput : String
-    , phoneInput : String
+    , textBoxes :
+        { firstNameInput : String
+        , lastNameInput : String
+        , emailInput : String
+        , phoneInput : String
+        }
     }
 
 
@@ -31,10 +34,14 @@ type alias User =
     }
 
 
+type Textbox
+    = FirstName
+    | LastName
+    | Email
+    | Phone
+
+
 type Msg
     = GotUsers (Result Http.Error (List User))
-    | FirstNameBoxChanged String
-    | LastNameBoxChanged String
     | RequestUsers User
-    | EmailBoxChanged String
-    | PhoneBoxChanged String
+    | TextBoxChanged Textbox String

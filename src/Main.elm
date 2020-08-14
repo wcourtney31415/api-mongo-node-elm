@@ -1,12 +1,14 @@
 module Main exposing (main)
 
 import Browser
+import FieldColumn exposing (handleTextboxChange)
 import RequestHandler exposing (requestUsers)
 import Types
     exposing
         ( ApiCallState(..)
         , Model
         , Msg(..)
+        , Textbox(..)
         )
 import View exposing (view)
 
@@ -25,10 +27,12 @@ initialModel : Model
 initialModel =
     { apiCallState = AwaitingInput
     , users = []
-    , firstNameInput = ""
-    , lastNameInput = ""
-    , emailInput = ""
-    , phoneInput = ""
+    , textBoxes =
+        { firstNameInput = ""
+        , lastNameInput = ""
+        , emailInput = ""
+        , phoneInput = ""
+        }
     }
 
 
@@ -60,25 +64,8 @@ update msg model =
             , requestUsers user
             )
 
-        FirstNameBoxChanged str ->
-            ( { model | firstNameInput = str }
-            , Cmd.none
-            )
-
-        LastNameBoxChanged str ->
-            ( { model | lastNameInput = str }
-            , Cmd.none
-            )
-
-        EmailBoxChanged str ->
-            ( { model | emailInput = str }
-            , Cmd.none
-            )
-
-        PhoneBoxChanged str ->
-            ( { model | phoneInput = str }
-            , Cmd.none
-            )
+        TextBoxChanged textbox str ->
+            handleTextboxChange model textbox str
 
 
 subscriptions : Model -> Sub Msg
