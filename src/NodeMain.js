@@ -34,19 +34,23 @@ app.get('/', (request, response) => {
 
 app.post(linkPostPeople, jsonParser, (request, response) => {
   body = request.body
+  console.log(body);
   MongoClient.connect(mongoUrl, function(err, db) {
     if (err) throw err;
     const dbo = db.db(dbName);
     const collection = dbo.collection(myColName);
     const providedLastName = body.lastName;
     const providedFirstName = body.firstName;
-    const providedPhone = body.phone
+    const providedEmail = body.email;
     const query = {};
     if (providedFirstName !== "") {
       query.firstName = providedFirstName;
     }
     if (providedLastName !== "") {
       query.lastName = providedLastName;
+    }
+    if (providedEmail !== "") {
+      query.email = providedEmail;
     }
     const queryResults = collection.find(query)
     queryResults.toArray(function(err, result) {

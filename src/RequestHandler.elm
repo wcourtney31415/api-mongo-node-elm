@@ -34,6 +34,7 @@ userEncoder user =
     Encode.object
         [ ( "firstName", Encode.string user.firstName )
         , ( "lastName", Encode.string user.lastName )
+        , ( "email", Encode.string user.email )
         ]
 
 
@@ -47,10 +48,15 @@ userDecoder =
         lastNameDecoder : Decoder String
         lastNameDecoder =
             field "lastName" string
+
+        emailDecoder : Decoder String
+        emailDecoder =
+            field "email" string
     in
-    Decode.map2 User
+    Decode.map3 User
         firstNameDecoder
         lastNameDecoder
+        emailDecoder
 
 
 userListDecoder : Decoder (List User)

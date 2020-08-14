@@ -30,6 +30,7 @@ getUsersButton model =
             RequestUsers
                 { firstName = model.textBoxes.firstNameInput
                 , lastName = model.textBoxes.lastNameInput
+                , email = model.textBoxes.emailInput
                 }
     in
     Input.button
