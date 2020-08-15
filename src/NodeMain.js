@@ -48,8 +48,8 @@ function searchWith(json) {
   if (json.email !== "") {
     query.email = json.email;
   }
-  if (json.phone !== "") {
-    query.phone = json.phone;
+  if (json.phoneNumber !== "") {
+    query.phoneNumber = json.phoneNumber;
   }
   console.log("");
   console.log("");

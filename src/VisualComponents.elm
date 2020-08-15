@@ -31,6 +31,7 @@ getUsersButton model =
                 { firstName = model.textBoxes.firstNameInput
                 , lastName = model.textBoxes.lastNameInput
                 , email = model.textBoxes.emailInput
+                , phone = model.textBoxes.phoneInput
                 }
     in
     Input.button

@@ -34,6 +34,7 @@ userEncoder user =
         [ ( "firstName", Encode.string user.firstName )
         , ( "lastName", Encode.string user.lastName )
         , ( "email", Encode.string user.email )
+        , ( "phoneNumber", Encode.string user.phone )
         ]
 
 
@@ -51,11 +52,16 @@ userDecoder =
         emailDecoder : Decoder String
         emailDecoder =
             field "email" string
+
+        phoneDecoder : Decoder String
+        phoneDecoder =
+            field "phoneNumber" string
     in
-    Decode.map3 User
+    Decode.map4 User
         firstNameDecoder
         lastNameDecoder
         emailDecoder
+        phoneDecoder
 
 
 userListDecoder : Decoder (List User)
