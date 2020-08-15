@@ -9,7 +9,6 @@ import Json.Decode as Decode
     exposing
         ( Decoder
         , field
-        , map2
         , string
         )
 import Json.Encode as Encode

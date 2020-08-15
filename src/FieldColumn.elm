@@ -63,6 +63,7 @@ fieldList model =
     ]
 
 
+handleTextboxChange : Model -> Textbox -> String -> ( Model, Cmd msg )
 handleTextboxChange model textbox str =
     let
         textBoxes =
