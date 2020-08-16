@@ -57,6 +57,9 @@ function searchWith(json) {
   if (json.phoneNumber !== "") {
     query.phoneNumber = json.phoneNumber;
   }
+  if (json.birthday !== "") {
+    query.birthdate = json.birthday;
+  }
   customPrint("Query result", query);
   return query;
 }

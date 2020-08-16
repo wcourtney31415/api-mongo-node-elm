@@ -58,6 +58,7 @@ initialModel =
         , lastNameInput = ""
         , emailInput = ""
         , phoneInput = ""
+        , birthdayInput = ""
         }
     }
 
@@ -91,12 +92,17 @@ requestUsers user =
                         phoneDecoder : Decoder String
                         phoneDecoder =
                             field "phoneNumber" string
+
+                        birthdayDecoder : Decoder String
+                        birthdayDecoder =
+                            field "birthdate" string
                     in
-                    Decode.map4 User
+                    Decode.map5 User
                         firstNameDecoder
                         lastNameDecoder
                         emailDecoder
                         phoneDecoder
+                        birthdayDecoder
             in
             Decode.list userDecoder
 
@@ -107,6 +113,7 @@ requestUsers user =
                 , ( "lastName", Encode.string myUser.lastName )
                 , ( "email", Encode.string myUser.email )
                 , ( "phoneNumber", Encode.string myUser.phone )
+                , ( "birthday", Encode.string myUser.birthday )
                 ]
     in
     Http.post

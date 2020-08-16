@@ -11,6 +11,7 @@ type alias Model =
         , lastNameInput : String
         , emailInput : String
         , phoneInput : String
+        , birthdayInput : String
         }
     }
 
@@ -20,7 +21,16 @@ type alias User =
     , lastName : String
     , email : String
     , phone : String
+    , birthday : String
     }
+
+
+type Textbox
+    = FirstName
+    | LastName
+    | Email
+    | Phone
+    | Birthday
 
 
 type ApiCallState
@@ -34,10 +44,3 @@ type Msg
     = GotUsers (Result Http.Error (List User))
     | RequestUsers User
     | TextBoxChanged Textbox String
-
-
-type Textbox
-    = FirstName
-    | LastName
-    | Email
-    | Phone

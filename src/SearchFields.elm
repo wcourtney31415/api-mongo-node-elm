@@ -45,6 +45,10 @@ fieldColumn model =
               , myModel.textBoxes.phoneInput
               , TextBoxChanged Phone
               )
+            , ( "Birthday"
+              , myModel.textBoxes.birthdayInput
+              , TextBoxChanged Birthday
+              )
             ]
 
         makeFieldElement : FieldSeed -> E.Element Msg
@@ -104,3 +108,7 @@ handleTextboxChange model textbox str =
         Phone ->
             updateTextboxRecord
                 { textBoxes | phoneInput = str }
+
+        Birthday ->
+            updateTextboxRecord
+                { textBoxes | birthdayInput = str }
