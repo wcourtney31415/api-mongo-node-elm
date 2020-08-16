@@ -17,11 +17,18 @@ import Style
         , userBoxBackground
         , white
         )
-import Types exposing (ApiCallState(..), Model, Msg(..), User)
+import Types
+    exposing
+        ( ApiCallState(..)
+        , Model
+        , Msg(..)
+        , TextboxValueSet
+        , User
+        )
 
 
-getUsersButton : Model -> E.Element Msg
-getUsersButton model =
+getUsersButton : TextboxValueSet -> E.Element Msg
+getUsersButton textBoxes =
     let
         myLabel =
             E.el
@@ -33,11 +40,11 @@ getUsersButton model =
 
         onClickMsg =
             RequestUsers
-                { firstName = model.textBoxes.firstNameInput
-                , lastName = model.textBoxes.lastNameInput
-                , email = model.textBoxes.emailInput
-                , phone = model.textBoxes.phoneInput
-                , birthday = model.textBoxes.birthdayInput
+                { firstName = textBoxes.firstNameInput
+                , lastName = textBoxes.lastNameInput
+                , email = textBoxes.emailInput
+                , phone = textBoxes.phoneInput
+                , birthday = textBoxes.birthdayInput
                 }
     in
     Input.button
@@ -70,8 +77,8 @@ header =
         E.text "Search Users"
 
 
-userList : Model -> E.Element Msg
-userList model =
+userList : List User -> E.Element Msg
+userList users =
     let
         userToElement : User -> E.Element msg
         userToElement user =
@@ -116,7 +123,7 @@ userList model =
                     ]
 
         usersAsElements =
-            List.map userToElement model.users
+            List.map userToElement users
     in
     E.column
         [ E.spacing 10
@@ -126,17 +133,14 @@ userList model =
         usersAsElements
 
 
-resultCount : Model -> E.Element Msg
-resultCount model =
+resultCount : Int -> E.Element Msg
+resultCount num =
     let
-        userCount =
-            List.length model.users
-
         userCountStr =
-            String.fromInt userCount
+            String.fromInt num
 
         plural =
-            if userCount == 1 then
+            if num == 1 then
                 " user."
 
             else
@@ -155,11 +159,11 @@ resultCount model =
         E.text userCountText
 
 
-pageState : Model -> E.Element Msg
-pageState model =
+pageState : ApiCallState -> E.Element Msg
+pageState apiCallState =
     let
         ( callState, callStateColor ) =
-            case model.apiCallState of
+            case apiCallState of
                 Success ->
                     ( "Success.", colorSuccess )
 
@@ -184,26 +188,24 @@ pageState model =
         E.text callState
 
 
-resultSide : Model -> E.Element Msg
-resultSide model =
+resultSide : List User -> E.Element Msg
+resultSide users =
     E.column
-        [ Background.color <| E.rgba 0 1 0 0
-        , E.height E.fill
+        [ E.height E.fill
         , E.spacing 20
         , E.width E.fill
         ]
-        [ resultCount model
-        , userList model
+        [ resultCount <| List.length users
+        , userList users
         ]
 
 
 searchSide : Model -> E.Element Msg
 searchSide model =
     E.column
-        [ Background.color <| E.rgba 1 0 0 0
-        , E.height E.fill
+        [ E.height E.fill
         , E.spacing 20
         ]
-        [ fieldColumn model
-        , getUsersButton model
+        [ fieldColumn model.textBoxes
+        , getUsersButton model.textBoxes
         ]

@@ -163,7 +163,7 @@ view model =
             , E.padding 50
             ]
             [ header
-            , pageState model
+            , pageState model.apiCallState
             , E.row
                 [ E.spacing 20
                 , E.centerX
@@ -173,7 +173,7 @@ view model =
                 , E.padding <| 20
                 ]
                 [ searchSide model
-                , resultSide model
+                , resultSide model.users
                 ]
             ]
 

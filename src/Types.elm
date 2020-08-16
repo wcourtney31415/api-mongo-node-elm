@@ -1,4 +1,4 @@
-module Types exposing (ApiCallState(..), Model, Msg(..), Textbox(..), User)
+module Types exposing (ApiCallState(..), Model, Msg(..), Textbox(..), TextboxValueSet, User)
 
 import Http
 
@@ -22,6 +22,15 @@ type alias User =
     , email : String
     , phone : String
     , birthday : String
+    }
+
+
+type alias TextboxValueSet =
+    { birthdayInput : String
+    , emailInput : String
+    , firstNameInput : String
+    , lastNameInput : String
+    , phoneInput : String
     }
 
 

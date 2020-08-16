@@ -17,6 +17,7 @@ import Types
         , Model
         , Msg(..)
         , Textbox(..)
+        , TextboxValueSet
         )
 
 
@@ -24,29 +25,29 @@ type alias FieldSeed =
     ( String, String, String -> Msg )
 
 
-fieldColumn : Model -> E.Element Msg
-fieldColumn model =
+fieldColumn : TextboxValueSet -> E.Element Msg
+fieldColumn textBoxValues =
     let
-        fieldList : Model -> List FieldSeed
-        fieldList myModel =
+        fieldList : List FieldSeed
+        fieldList =
             [ ( "First Name"
-              , myModel.textBoxes.firstNameInput
+              , textBoxValues.firstNameInput
               , TextBoxChanged FirstName
               )
             , ( "Last Name"
-              , myModel.textBoxes.lastNameInput
+              , textBoxValues.lastNameInput
               , TextBoxChanged LastName
               )
             , ( "Email"
-              , myModel.textBoxes.emailInput
+              , textBoxValues.emailInput
               , TextBoxChanged Email
               )
             , ( "Phone"
-              , myModel.textBoxes.phoneInput
+              , textBoxValues.phoneInput
               , TextBoxChanged Phone
               )
             , ( "Birthday"
-              , myModel.textBoxes.birthdayInput
+              , textBoxValues.birthdayInput
               , TextBoxChanged Birthday
               )
             ]
@@ -73,8 +74,7 @@ fieldColumn model =
         , Font.color white
         ]
     <|
-        List.map makeFieldElement <|
-            fieldList model
+        List.map makeFieldElement fieldList
 
 
 handleTextboxChange : Model -> Textbox -> String -> ( Model, Cmd msg )
