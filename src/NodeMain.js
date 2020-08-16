@@ -32,12 +32,18 @@ app.get('/', (request, response) => {
   logPageServed("");
 })
 
+function customPrint(title, value) {
+  console.log("");
+  console.log("");
+  console.log("");
+  console.log(`${title}: `);
+  console.log(value);
+}
+
+
+
 function searchWith(json) {
-  console.log("");
-  console.log("");
-  console.log("");
-  console.log("JSON accepted from Elm: ");
-  console.log(json);
+  customPrint("JSON accepted from Elm: ", json);
   const query = {};
   if (json.firstName !== "") {
     query.firstName = json.firstName;
@@ -51,11 +57,7 @@ function searchWith(json) {
   if (json.phoneNumber !== "") {
     query.phoneNumber = json.phoneNumber;
   }
-  console.log("");
-  console.log("");
-  console.log("");
-  console.log("Query: ");
-  console.log(query);
+  customPrint("Query result", query);
   return query;
 }
 
@@ -70,11 +72,7 @@ app.post(linkPostPeople, jsonParser, (request, response) => {
     queryResults.toArray(function(err, result) {
       if (err) throw err;
       response.json(result);
-      console.log("");
-      console.log("");
-      console.log("");
-      console.log("Final Result: ");
-      console.log(result);
+      customPrint("Final Result: ", result);
       db.close();
     });
   });
