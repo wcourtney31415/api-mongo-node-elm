@@ -1,19 +1,6 @@
-module Types exposing
-    ( ApiCallState(..)
-    , Model
-    , Msg(..)
-    , Textbox(..)
-    , User
-    )
+module Types exposing (ApiCallState(..), Model, Msg(..), Textbox(..), User)
 
 import Http
-
-
-type ApiCallState
-    = Failure
-    | Loading
-    | Success
-    | AwaitingInput
 
 
 type alias Model =
@@ -36,14 +23,21 @@ type alias User =
     }
 
 
-type Textbox
-    = FirstName
-    | LastName
-    | Email
-    | Phone
+type ApiCallState
+    = Failure
+    | Loading
+    | Success
+    | AwaitingInput
 
 
 type Msg
     = GotUsers (Result Http.Error (List User))
     | RequestUsers User
     | TextBoxChanged Textbox String
+
+
+type Textbox
+    = FirstName
+    | LastName
+    | Email
+    | Phone

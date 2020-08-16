@@ -1,18 +1,23 @@
-module VisualComponents exposing (fieldToRow, getUsersButton, header, pageState, resultCount, userList, userToElement)
+module VisualComponents exposing (getUsersButton, header, pageState, resultCount, resultSide, searchSide, userList)
 
 import Element as E
 import Element.Background as Background
 import Element.Border as Border
 import Element.Font as Font
 import Element.Input as Input
+import SearchFields exposing (fieldColumn)
 import Style
-import Types
     exposing
-        ( ApiCallState(..)
-        , Model
-        , Msg(..)
-        , User
+        ( colorButton
+        , colorContacting
+        , colorFailure
+        , colorIdle
+        , colorSuccess
+        , shadow
+        , userBoxBackground
+        , white
         )
+import Types exposing (ApiCallState(..), Model, Msg(..), User)
 
 
 getUsersButton : Model -> E.Element Msg
@@ -36,10 +41,10 @@ getUsersButton model =
     in
     Input.button
         [ E.centerX
-        , Background.color Style.colorButton
+        , Background.color colorButton
         , E.padding 10
         , Border.rounded 5
-        , Style.shadow
+        , shadow
         ]
         { onPress = Just onClickMsg
         , label = myLabel
@@ -52,9 +57,7 @@ header =
         [ Font.size 40
         , Font.bold
         , E.centerX
-
-        -- , Font.color <| E.rgb255 14 14 14
-        , Font.color Style.white
+        , Font.color white
         , E.paddingEach
             { top = 0
             , bottom = 30
@@ -69,6 +72,48 @@ header =
 userList : Model -> E.Element Msg
 userList model =
     let
+        userToElement : User -> E.Element msg
+        userToElement user =
+            let
+                fieldToRow : ( String, String ) -> E.Element msg
+                fieldToRow ( fieldName, val ) =
+                    let
+                        textA =
+                            fieldName ++ ":"
+
+                        partA =
+                            E.el [ Font.bold ] <| E.text textA
+
+                        partB =
+                            E.text val
+                    in
+                    E.row
+                        [ E.spacing 5 ]
+                        [ partA, partB ]
+
+                firstName =
+                    fieldToRow
+                        ( "First name", user.firstName )
+
+                lastName =
+                    fieldToRow
+                        ( "Last name", user.lastName )
+            in
+            E.el
+                [ Background.color
+                    userBoxBackground
+                , Border.rounded 10
+                , E.padding 10
+                , shadow
+                , E.width E.fill
+                ]
+            <|
+                E.column
+                    [ E.spacing 10 ]
+                    [ firstName
+                    , lastName
+                    ]
+
         usersAsElements =
             List.map userToElement model.users
     in
@@ -78,33 +123,6 @@ userList model =
         ]
     <|
         usersAsElements
-
-
-userToElement : User -> E.Element msg
-userToElement user =
-    let
-        firstName =
-            fieldToRow
-                ( "First name", user.firstName )
-
-        lastName =
-            fieldToRow
-                ( "Last name", user.lastName )
-    in
-    E.el
-        [ Background.color
-            Style.userBoxBackground
-        , Border.rounded 10
-        , E.padding 10
-        , Style.shadow
-        , E.width E.fill
-        ]
-    <|
-        E.column
-            [ E.spacing 10 ]
-            [ firstName
-            , lastName
-            ]
 
 
 resultCount : Model -> E.Element Msg
@@ -129,28 +147,11 @@ resultCount model =
     E.el
         [ E.centerX
         , Background.color <| E.rgba 0 1 0 0
-        , Font.color Style.white
+        , Font.color white
         , Font.bold
         ]
     <|
         E.text userCountText
-
-
-fieldToRow : ( String, String ) -> E.Element msg
-fieldToRow ( fieldName, val ) =
-    let
-        textA =
-            fieldName ++ ":"
-
-        partA =
-            E.el [ Font.bold ] <| E.text textA
-
-        partB =
-            E.text val
-    in
-    E.row
-        [ E.spacing 5 ]
-        [ partA, partB ]
 
 
 pageState : Model -> E.Element Msg
@@ -159,16 +160,16 @@ pageState model =
         ( callState, callStateColor ) =
             case model.apiCallState of
                 Success ->
-                    ( "Success.", Style.colorSuccess )
+                    ( "Success.", colorSuccess )
 
                 Failure ->
-                    ( "Failed to retrieve user(s).", Style.colorFailure )
+                    ( "Failed to retrieve user(s).", colorFailure )
 
                 Loading ->
-                    ( "Contacting API...", Style.colorContacting )
+                    ( "Contacting API...", colorContacting )
 
                 AwaitingInput ->
-                    ( "Awaiting Input...", Style.colorIdle )
+                    ( "Awaiting Input...", colorIdle )
     in
     E.el
         [ E.centerX
@@ -176,7 +177,32 @@ pageState model =
         , E.padding 10
         , Font.bold
         , Border.rounded 5
-        , Style.shadow
+        , shadow
         ]
     <|
         E.text callState
+
+
+resultSide : Model -> E.Element Msg
+resultSide model =
+    E.column
+        [ Background.color <| E.rgba 0 1 0 0
+        , E.height E.fill
+        , E.spacing 20
+        , E.width E.fill
+        ]
+        [ resultCount model
+        , userList model
+        ]
+
+
+searchSide : Model -> E.Element Msg
+searchSide model =
+    E.column
+        [ Background.color <| E.rgba 1 0 0 0
+        , E.height E.fill
+        , E.spacing 20
+        ]
+        [ fieldColumn model
+        , getUsersButton model
+        ]
