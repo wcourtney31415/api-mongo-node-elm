@@ -7,7 +7,6 @@ import Element.Border as Border
 import Element.Font as Font
 import Element.Input as Input
 import Html
-import Http
 import Style
     exposing
         ( pageBackground
@@ -103,6 +102,7 @@ view model =
             ]
 
 
+loginButton : E.Element Msg
 loginButton =
     Input.button
         [ E.centerX
@@ -138,6 +138,7 @@ header =
         E.text "Login"
 
 
+makeTextbox : TextboxSeed -> E.Element Msg
 makeTextbox ( label, msg, text ) =
     Input.text
         [ Background.color <| E.rgb255 80 80 80

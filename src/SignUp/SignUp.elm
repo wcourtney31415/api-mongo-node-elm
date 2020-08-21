@@ -7,7 +7,6 @@ import Element.Border as Border
 import Element.Font as Font
 import Element.Input as Input
 import Html
-import Http
 import Style
     exposing
         ( pageBackground
@@ -135,6 +134,7 @@ header =
         E.text "Sign Up"
 
 
+signUpButton : E.Element Msg
 signUpButton =
     Input.button
         [ E.centerX
@@ -148,6 +148,7 @@ signUpButton =
         }
 
 
+showHideButton : Model -> E.Element Msg
 showHideButton model =
     let
         showOrHide =
@@ -169,12 +170,14 @@ showHideButton model =
         }
 
 
+textboxStyle : List E.Attribute
 textboxStyle =
     [ Background.color <| E.rgb255 80 80 80
     , Border.color <| E.rgb255 0 0 0
     ]
 
 
+emailTextbox : Model -> E.Element Msg
 emailTextbox model =
     Input.email textboxStyle
         { onChange = TextBoxChanged Email
@@ -189,6 +192,7 @@ emailTextbox model =
         }
 
 
+passwordTextbox : Model -> E.Element Msg
 passwordTextbox model =
     Input.newPassword textboxStyle
         { onChange = TextBoxChanged Password
@@ -204,6 +208,7 @@ passwordTextbox model =
         }
 
 
+confirmPasswordTextbox : Model -> E.Element Msg
 confirmPasswordTextbox model =
     Input.newPassword textboxStyle
         { onChange = TextBoxChanged ConfirmPassword
