@@ -27,9 +27,21 @@ const linkPostPeople = '/findusers';
 const links = [linkPostPeople]
 
 app.get('/', (request, response) => {
-  const homepage = getFile('index.html');
+  const homepage = getFile('Login.html');
   response.sendFile(homepage);
-  logPageServed("");
+  logPageServed("login");
+})
+
+app.get('/login', (request, response) => {
+  const homepage = getFile('Login.html');
+  response.sendFile(homepage);
+  logPageServed("login");
+})
+
+app.get('/signup', (request, response) => {
+  const homepage = getFile('SignUp.html');
+  response.sendFile(homepage);
+  logPageServed("signup");
 })
 
 function customPrint(title, value) {
