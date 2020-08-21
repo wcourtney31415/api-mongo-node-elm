@@ -27,19 +27,19 @@ const linkPostPeople = '/findusers';
 const links = [linkPostPeople]
 
 app.get('/', (request, response) => {
-  const homepage = getFile('Login.html');
+  const homepage = getFile('html/Login.html');
   response.sendFile(homepage);
   logPageServed("login");
 })
 
 app.get('/login', (request, response) => {
-  const homepage = getFile('Login.html');
+  const homepage = getFile('html/Login.html');
   response.sendFile(homepage);
   logPageServed("login");
 })
 
 app.get('/signup', (request, response) => {
-  const homepage = getFile('SignUp.html');
+  const homepage = getFile('html/SignUp.html');
   response.sendFile(homepage);
   logPageServed("signup");
 })

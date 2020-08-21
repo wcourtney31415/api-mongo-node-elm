@@ -1,4 +1,4 @@
-module Types exposing (ApiCallState(..), Model, Msg(..), Textbox(..), TextboxValueSet, User)
+module UserSearch.Types exposing (ApiCallState(..), Model, Msg(..), Textbox(..), TextboxValueSet, User)
 
 import Http
 

@@ -1,4 +1,4 @@
-module Main exposing (main)
+module UserSearch.UserSearch exposing (main)
 
 import Browser
 import Element as E
@@ -13,16 +13,16 @@ import Json.Decode as Decode
         , string
         )
 import Json.Encode as Encode
-import SearchFields
-    exposing
-        ( handleTextboxChange
-        )
 import Style
     exposing
         ( pageBackground
         , shadow
         )
-import Types
+import UserSearch.SearchFields
+    exposing
+        ( handleTextboxChange
+        )
+import UserSearch.Types
     exposing
         ( ApiCallState(..)
         , Model
@@ -30,7 +30,7 @@ import Types
         , Textbox(..)
         , User
         )
-import VisualComponents
+import UserSearch.VisualComponents
     exposing
         ( header
         , pageState

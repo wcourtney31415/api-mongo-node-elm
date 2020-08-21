@@ -1,4 +1,4 @@
-module SignUp exposing (Model, Msg(..), Textbox(..), init, initialModel, main, subscriptions, update, view)
+module SignUp.SignUp exposing (Model, Msg(..), Textbox(..), init, initialModel, main, subscriptions, update, view)
 
 import Browser
 import Element as E

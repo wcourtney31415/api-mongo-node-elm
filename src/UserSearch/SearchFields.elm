@@ -1,4 +1,4 @@
-module SearchFields exposing (FieldSeed, fieldColumn, handleTextboxChange)
+module UserSearch.SearchFields exposing (FieldSeed, fieldColumn, handleTextboxChange)
 
 import Element as E
 import Element.Background as Background
@@ -11,7 +11,7 @@ import Style
         , colorInput
         , white
         )
-import Types
+import UserSearch.Types
     exposing
         ( ApiCallState(..)
         , Model

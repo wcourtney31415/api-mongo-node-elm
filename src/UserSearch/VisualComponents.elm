@@ -1,11 +1,10 @@
-module VisualComponents exposing (getUsersButton, header, pageState, resultCount, resultSide, searchSide, userList)
+module UserSearch.VisualComponents exposing (getUsersButton, header, pageState, resultCount, resultSide, searchSide, userList)
 
 import Element as E
 import Element.Background as Background
 import Element.Border as Border
 import Element.Font as Font
 import Element.Input as Input
-import SearchFields exposing (fieldColumn)
 import Style
     exposing
         ( colorButton
@@ -17,7 +16,8 @@ import Style
         , userBoxBackground
         , white
         )
-import Types
+import UserSearch.SearchFields exposing (fieldColumn)
+import UserSearch.Types
     exposing
         ( ApiCallState(..)
         , Model

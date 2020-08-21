@@ -1,4 +1,4 @@
-module Login exposing (Model, Msg(..), Textbox(..), init, initialModel, main, subscriptions, update, view)
+module Login.Login exposing (Model, Msg(..), Textbox(..), init, initialModel, main, subscriptions, update, view)
 
 import Browser
 import Element as E
