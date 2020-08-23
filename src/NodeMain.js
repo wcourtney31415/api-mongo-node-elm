@@ -1,30 +1,30 @@
 const MongoClient = require('mongodb').MongoClient;
-const express = require('express')
+const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 
-const app = express()
-const jsonParser = bodyParser.json()
+const app = express();
+const jsonParser = bodyParser.json();
 
 //Add timestamps to console logs.
 require('console-stamp')(console, '[HH:MM:ss.l]');
 
 
 //Webserver
-const host = 'localhost'
-const httpPort = 80
-const address = `http://${host}:${httpPort}`
+const host = 'localhost';
+const httpPort = 80;
+const address = `http://${host}:${httpPort}`;
 
 //MongoDB
-const mongoAddress = 'localhost'
-const mongoPort = 27017
+const mongoAddress = 'localhost';
+const mongoPort = 27017;
 const mongoUrl = `mongodb://${mongoAddress}:${mongoPort}/`;
-const dbName = "MyDb"
-const myColName = "users"
+const dbName = "MyDb";
+const myColName = "users";
 
 //Links
 const linkPostPeople = '/findusers';
-const links = [linkPostPeople]
+const links = [linkPostPeople];
 
 app.get('/', (request, response) => {
   const homepage = getFile('html/Login.html');
@@ -83,7 +83,7 @@ app.post(linkPostPeople, jsonParser, (request, response) => {
     const dbo = db.db(dbName);
     const collection = dbo.collection(myColName);
     const query = searchWith(body);
-    const queryResults = collection.find(query)
+    const queryResults = collection.find(query);
     queryResults.toArray(function(err, result) {
       if (err) throw err;
       response.json(result);
@@ -99,20 +99,20 @@ app.listen(httpPort, () => {
 })
 
 function getFile(fileName) {
-  return path.join(__dirname + '/' + fileName)
+  return path.join(__dirname + '/' + fileName);
 }
 
 function startupMessage() {
-  const msg = `Server Started: ${address}`
-  console.log(msg)
+  const msg = `Server Started: ${address}`;
+  console.log(msg);
   links.forEach(path => {
     fullPath = address + path;
     console.log(fullPath);
   });
-  console.log("")
+  console.log("");
 }
 
 function logPageServed(path) {
-  const fullAddress = address + path
+  const fullAddress = address + path;
   console.log(`Served up: ${fullAddress}`);
 }
