@@ -117,7 +117,7 @@ requestUsers user =
                 ]
     in
     Http.post
-        { url = "/findusers"
+        { url = "/users"
         , body = Http.jsonBody (userEncoder user)
         , expect = Http.expectJson GotUsers userListDecoder
         }
