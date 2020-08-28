@@ -1,7 +1,8 @@
-const MongoClient = require('mongodb').MongoClient;
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
 const app = express();
 const jsonParser = bodyParser.json();
@@ -15,12 +16,24 @@ const host = 'localhost';
 const httpPort = 80;
 const address = `http://${host}:${httpPort}`;
 
-//MongoDB
-const mongoAddress = 'localhost';
-const mongoPort = 27017;
-const mongoUrl = `mongodb://${mongoAddress}:${mongoPort}/`;
-const dbName = "MyDb";
-const myColName = "users";
+//Mongoose
+const hostname = 'localhost';
+const port = '27017';
+const dbName = 'MyDb';
+
+const connectionString = `mongodb://${hostname}:${port}/${dbName}`;
+
+mongoose.connect(connectionString, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+});
+
+const UserSchema = new Schema({
+  firstName: String,
+  lastName: String
+});
+
+const User = mongoose.model('User', UserSchema);
 
 //Links
 const linkPostPeople = '/findusers';
@@ -54,42 +67,31 @@ function customPrint(title, value) {
 
 
 
-function searchWith(json) {
-  customPrint("JSON accepted from Elm: ", json);
-  const query = {};
-  if (json.firstName !== "") {
-    query.firstName = json.firstName;
-  }
-  if (json.lastName !== "") {
-    query.lastName = json.lastName;
-  }
-  if (json.email !== "") {
-    query.email = json.email;
-  }
-  if (json.phoneNumber !== "") {
-    query.phoneNumber = json.phoneNumber;
-  }
-  if (json.birthday !== "") {
-    query.birthdate = json.birthday;
-  }
-  customPrint("Query result", query);
-  return query;
-}
+
 
 app.post(linkPostPeople, jsonParser, (request, response) => {
   body = request.body
-  MongoClient.connect(mongoUrl, function(err, db) {
-    if (err) throw err;
-    const dbo = db.db(dbName);
-    const collection = dbo.collection(myColName);
-    const query = searchWith(body);
-    const queryResults = collection.find(query);
-    queryResults.toArray(function(err, result) {
-      if (err) throw err;
-      response.json(result);
-      customPrint("Final Result: ", result);
-      db.close();
-    });
+  const query = {};
+  if (body.firstName) {
+    query.firstName = body.firstName;
+  }
+  if (body.lastName) {
+    query.lastName = body.lastName;
+  }
+  if (body.email) {
+    query.email = body.email;
+  }
+  if (body.phoneNumber) {
+    query.phoneNumber = body.phoneNumber;
+  }
+  if (body.birthday) {
+    query.birthdate = body.birthday;
+  }
+  const desiredFields = 'firstName lastName';
+  User.find(query, desiredFields, function(err, users) {
+    if (err) return handleError(err);
+    console.log(users);
+    response.json(users);
   });
   logPageServed(linkPostPeople);
 });
