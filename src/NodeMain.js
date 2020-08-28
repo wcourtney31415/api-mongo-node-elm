@@ -65,28 +65,32 @@ function customPrint(title, value) {
   console.log(value);
 }
 
+//Request Json field name, then query field name for mongo.
+const acceptedFieldList = [
+  ["firstName", "firstName"],
+  ["lastName", "lastName"],
+  ["email", "email"],
+  ["phoneNumber", "phoneNumber"],
+  ["birthdate", "birthdate]"]
+];
 
-
-
+function requestToQuery(json, acceptedFieldList) {
+  const query = {};
+  acceptedFieldList.forEach(tup => {
+    const requestFieldName = tup[0];
+    const queryFieldName = tup[1];
+    const requestFieldValue = json[requestFieldName];
+    if (requestFieldValue) {
+      query[queryFieldName] = requestFieldValue;
+    }
+  });
+  console.log(query);
+  return query;
+}
 
 app.post(linkPostPeople, jsonParser, (request, response) => {
   body = request.body
-  const query = {};
-  if (body.firstName) {
-    query.firstName = body.firstName;
-  }
-  if (body.lastName) {
-    query.lastName = body.lastName;
-  }
-  if (body.email) {
-    query.email = body.email;
-  }
-  if (body.phoneNumber) {
-    query.phoneNumber = body.phoneNumber;
-  }
-  if (body.birthday) {
-    query.birthdate = body.birthday;
-  }
+  const query = requestToQuery(body, acceptedFieldList);
   const desiredFields = 'firstName lastName';
   User.find(query, desiredFields, function(err, users) {
     if (err) return handleError(err);
