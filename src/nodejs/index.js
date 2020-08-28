@@ -1,6 +1,5 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const path = require('path');
 const pages = require('./pages');
 const nonPageRequests = require('./nonPageRequests');
 const {
