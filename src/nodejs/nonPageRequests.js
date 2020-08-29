@@ -20,7 +20,7 @@ app.post(linkPostPeople, jsonParser, (request, response) => {
     ["phoneNumber", "phoneNumber"],
     ["birthdate", "birthdate"]
   ];
-  const query = requestedFieldsToQuery(body, permittedFields);
+  const query = toPermittedFields(body, permittedFields);
   const desiredFields = 'firstName lastName birthdate';
   User.find(query, desiredFields, function(err, users) {
     if (err) return handleError(err);
@@ -29,7 +29,7 @@ app.post(linkPostPeople, jsonParser, (request, response) => {
   });
 });
 
-function requestedFieldsToQuery(json, permittedFields) {
+function toPermittedFields(json, permittedFields) {
   const query = {};
   permittedFields.forEach(tup => {
     const requestFieldName = tup[0];
