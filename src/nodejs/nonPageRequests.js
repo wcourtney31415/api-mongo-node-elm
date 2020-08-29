@@ -18,10 +18,10 @@ app.post(linkPostPeople, jsonParser, (request, response) => {
     ["lastName", "lastName"],
     ["email", "email"],
     ["phoneNumber", "phoneNumber"],
-    ["birthdate", "birthdate]"]
+    ["birthdate", "birthdate"]
   ];
   const query = requestedFieldsToQuery(body, permittedFields);
-  const desiredFields = 'firstName lastName';
+  const desiredFields = 'firstName lastName birthdate';
   User.find(query, desiredFields, function(err, users) {
     if (err) return handleError(err);
     console.log(users);
