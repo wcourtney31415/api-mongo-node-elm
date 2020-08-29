@@ -170,7 +170,7 @@ showHideButton model =
         }
 
 
-textboxStyle : List E.Attribute
+textboxStyle : List (E.Attribute Msg)
 textboxStyle =
     [ Background.color <| E.rgb255 80 80 80
     , Border.color <| E.rgb255 0 0 0
