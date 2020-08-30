@@ -1,5 +1,7 @@
 const linkPostPeople = '/users';
-const links = [linkPostPeople];
+const linkCreateUser = '/create-user';
+const links = [linkPostPeople, linkCreateUser];
 
 exports.links = links;
 exports.linkPostPeople = linkPostPeople;
+exports.linkCreateUser = linkCreateUser;
