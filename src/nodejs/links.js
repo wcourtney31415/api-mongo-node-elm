@@ -1,7 +1,13 @@
-const linkPostPeople = '/users';
+const linkQueryUsers = '/query-users';
 const linkCreateUser = '/create-user';
-const links = [linkPostPeople, linkCreateUser];
+const linkDeleteUsers = '/delete-users';
+const links = [
+  linkQueryUsers,
+  linkCreateUser,
+  linkDeleteUsers
+];
 
 exports.links = links;
-exports.linkPostPeople = linkPostPeople;
+exports.linkQueryUsers = linkQueryUsers;
 exports.linkCreateUser = linkCreateUser;
+exports.linkDeleteUsers = linkDeleteUsers;

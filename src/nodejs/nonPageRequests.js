@@ -3,8 +3,9 @@ const {
   jsonParser
 } = require('./app');
 const {
-  linkPostPeople,
-  linkCreateUser
+  linkQueryUsers,
+  linkCreateUser,
+  linkDeleteUsers
 } = require('./links');
 const {
   User
@@ -24,7 +25,7 @@ function toPermittedFields(json, permittedFields) {
   return query;
 }
 
-app.post(linkPostPeople, jsonParser, (request, response) => {
+app.post(linkQueryUsers, jsonParser, (request, response) => {
   body = request.body
   //Request Json field name, then query field name for mongo.
   const permittedFields = [
@@ -37,6 +38,21 @@ app.post(linkPostPeople, jsonParser, (request, response) => {
   const query = toPermittedFields(body, permittedFields);
   const desiredFields = 'firstName lastName birthdate';
   User.find(query, desiredFields, function(err, users) {
+    if (err) return handleError(err);
+    console.log(users);
+    response.json(users);
+  });
+});
+
+app.post(linkDeleteUsers, jsonParser, (request, response) => {
+  body = request.body
+  //Request Json field name, then query field name for mongo.
+  const permittedFields = [
+    ["_id", "_id"]
+  ];
+  const query = toPermittedFields(body, permittedFields);
+  const desiredFields = '';
+  User.find(query, desiredFields).remove(function(err, users) {
     if (err) return handleError(err);
     console.log(users);
     response.json(users);
