@@ -55,6 +55,6 @@ app.post(linkCreateUser, jsonParser, (request, response) => {
   ];
   const newUser = new User(toPermittedFields(body, permittedFields));
   newUser.save(function(err) {
-    console.log('Saved new user.');
+    response.send('Saved new user.');
   });
 });
