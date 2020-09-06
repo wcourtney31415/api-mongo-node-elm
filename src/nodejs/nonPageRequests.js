@@ -21,28 +21,51 @@ function toPermittedFields(json, permittedFields) {
       query[queryFieldName] = requestFieldValue;
     }
   });
-  console.log(query);
   return query;
 }
 
+
 app.post(linkQueryUsers, jsonParser, (request, response) => {
-  body = request.body;
-  myQuery = body.query;
-  //Request Json field name, then query field name for mongo.
-  const permittedFields = [
-    ["firstName", "firstName"],
-    ["lastName", "lastName"],
-    ["email", "email"],
-    ["phoneNumber", "phoneNumber"],
-    ["birthdate", "birthdate"]
-  ];
-  const query = toPermittedFields(myQuery, permittedFields);
-  const desiredFields = 'firstName lastName birthdate';
-  User.find(query, desiredFields, function(err, users) {
-    if (err) return handleError(err);
-    console.log(users);
-    response.json(users);
+  const body = request.body;
+  const myQuery = body.query;
+  const email = body.email;
+  const sessionId = body.session;
+
+  const sessionQuery = {
+    email: email,
+    session: sessionId
+  }
+
+  User.find(sessionQuery, function(err, users) {
+    if (err) response.json({
+      error: "Query Failed."
+    });
+    if (users.length > 0) {
+      console.log(email + " has successfully authenticated.");
+      //Request Json field name, then query field name for mongo.
+      const permittedFields = [
+        ["firstName", "firstName"],
+        ["lastName", "lastName"],
+        ["email", "email"],
+        ["phoneNumber", "phoneNumber"],
+        ["birthdate", "birthdate"]
+      ];
+      const query = toPermittedFields(myQuery, permittedFields);
+      const desiredFields = 'firstName lastName birthdate';
+      User.find(query, desiredFields, function(err, users) {
+        console.log(email + " performed query.");
+        if (err) return handleError(err);
+        response.json(users);
+      });
+    } else {
+      response.json({
+        error: "Failed to authenticate."
+      })
+    }
+
+
   });
+
 });
 
 app.post(linkDeleteUsers, jsonParser, (request, response) => {
