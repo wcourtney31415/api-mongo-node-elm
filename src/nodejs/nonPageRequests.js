@@ -26,7 +26,8 @@ function toPermittedFields(json, permittedFields) {
 }
 
 app.post(linkQueryUsers, jsonParser, (request, response) => {
-  body = request.body
+  body = request.body;
+  myQuery = body.query;
   //Request Json field name, then query field name for mongo.
   const permittedFields = [
     ["firstName", "firstName"],
@@ -35,7 +36,7 @@ app.post(linkQueryUsers, jsonParser, (request, response) => {
     ["phoneNumber", "phoneNumber"],
     ["birthdate", "birthdate"]
   ];
-  const query = toPermittedFields(body, permittedFields);
+  const query = toPermittedFields(myQuery, permittedFields);
   const desiredFields = 'firstName lastName birthdate';
   User.find(query, desiredFields, function(err, users) {
     if (err) return handleError(err);
