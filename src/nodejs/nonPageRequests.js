@@ -2,16 +2,22 @@ const {
   app,
   jsonParser
 } = require('./app');
+
+const crypto = require('crypto');
+
 const {
   linkQueryUsers,
   linkCreateUser,
   linkDeleteUsers
 } = require('./links');
-const {
-  User
-} = require('./schemas');
 
-function toPermittedFields(json, permittedFields) {
+const moment = require('moment');
+
+const User = require('./schemas');
+
+
+
+function toPermittedFields(json, jsonParser, permittedFields) {
   const query = {};
   permittedFields.forEach(tup => {
     const requestFieldName = tup[0];
@@ -24,6 +30,58 @@ function toPermittedFields(json, permittedFields) {
   return query;
 }
 
+app.post('/login', jsonParser, (req, res) => {
+  User.findOne({
+    email: req.body.email
+  }, function(err, user) {
+    if (user === null) {
+      return res.status(400).send({
+        message: "User not found."
+      });
+    } else {
+      if (user.validatePassword(req.body.password)) {
+
+        const sessionId = crypto.randomBytes(16).toString('hex');
+        const exp = moment().add(180, 'days').calendar();
+        const sessionData = {
+          sessionId: sessionId,
+          exp: exp
+        };
+
+        user.sessions.push(sessionData);
+        user.save();
+
+        return res.status(201).send({
+          message: "User Logged In",
+        })
+      } else {
+        return res.status(400).send({
+          message: "Wrong Password"
+        });
+      }
+    }
+  });
+});
+
+app.post('/signup', jsonParser, (req, res) => {
+  const body = req.body;
+  console.log(body);
+  let newUser = new User();
+  newUser.name = body.name
+  newUser.email = body.email
+  newUser.setPassword(body.password);
+  newUser.save((err, User) => {
+    if (err) {
+      return res.status(400).send({
+        message: "Failed to add user."
+      });
+    } else {
+      return res.status(201).send({
+        message: "User added successfully."
+      });
+    }
+  });
+});
 
 app.post(linkQueryUsers, jsonParser, (request, response) => {
   const body = request.body;
