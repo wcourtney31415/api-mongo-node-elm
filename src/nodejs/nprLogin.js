@@ -12,35 +12,42 @@ const User = require('./schemas');
 
 
 
-app.post('/login', jsonParser, (req, res) => {
-  User.findOne({
-    email: req.body.email
-  }, function(err, user) {
-    if (user === null) {
-      return res.status(400).send({
-        message: "User not found."
-      });
+function loginWithEmail(req, err, user) {
+  const password = req.body.password;
+  var message;
+  var status;
+  if (user === null) {
+    message = "User not found.";
+    status = 400;
+  } else {
+    const passwordIsCorrect = user.validatePassword(password);
+    if (passwordIsCorrect) {
+      const sessionId = crypto.randomBytes(16).toString('hex');
+      const expiration = moment().add(180, 'days').calendar();
+      const sessionData = {
+        sessionId: sessionId,
+        exp: expiration
+      };
+      user.sessions.push(sessionData);
+      user.save();
+      message = "User logged in.";
+      status = 201;
     } else {
-      if (user.validatePassword(req.body.password)) {
-
-        const sessionId = crypto.randomBytes(16).toString('hex');
-        const exp = moment().add(180, 'days').calendar();
-        const sessionData = {
-          sessionId: sessionId,
-          exp: exp
-        };
-
-        user.sessions.push(sessionData);
-        user.save();
-
-        return res.status(201).send({
-          message: "User Logged In",
-        })
-      } else {
-        return res.status(400).send({
-          message: "Wrong Password"
-        });
-      }
+      message = "Wrong Password";
+      status = 400;
     }
-  });
-});
+  }
+  const messageObj = {
+    message: message
+  };
+  return res.status(status).send(messageObj);
+}
+
+function login(req, res) {
+  const query = {
+    email: req.body.email
+  };
+  User.findOne(query, loginWithEmail(req));
+}
+
+app.post('/login', jsonParser, login);
