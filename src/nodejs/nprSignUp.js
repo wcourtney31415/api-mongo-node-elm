@@ -7,30 +7,26 @@ const User = require('./schemas');
 
 
 
-app.post('/signup', jsonParser, signUp);
-
-function signUp(request, response) {
-  const body = request.body;
-  console.log(body);
+function signUp(req, res) {
   let newUser = new User();
-  newUser.name = body.name;
-  newUser.email = body.email;
-  newUser.setPassword(body.password);
-  newUser.save(addUser(response));
+  newUser.name = req.body.name;
+  newUser.email = req.body.email;
+  newUser.setPassword(req.body.password);
+  newUser.save(addUser(res));
 }
 
-function addUser(response, err, User) {
-  var status;
-  var message;
+function addUser(res, err, User) {
   if (err) {
-    status = 400;
-    message = "Failed to add user.";
+    respond(res, 400, "Failed to add user.");
   } else {
-    status = 201;
-    message = "User added successfully.";
+    respond(res, 201, "User added successfully.");
   }
-  const messageObj = {
-    message: message
-  };
-  return response.status(status).send(messageObj);
 }
+
+function respond(res, status, message) {
+  return res.status(status).send({
+    message: message
+  });
+}
+
+app.post('/signup', jsonParser, signUp);
