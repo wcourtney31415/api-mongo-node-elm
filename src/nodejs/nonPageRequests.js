@@ -4,15 +4,14 @@ const {
 } = require('./app');
 
 const nprSignUp = require('./nprSignUp');
-const nprLogin = require('./nprLogin');
 
+const nprLogin = require('./nprLogin');
 
 const {
   linkQueryUsers,
   linkCreateUser,
   linkDeleteUsers
 } = require('./links');
-
 
 const User = require('./schemas');
 
@@ -30,10 +29,6 @@ function toPermittedFields(json, jsonParser, permittedFields) {
   });
   return query;
 }
-
-
-
-
 
 app.post(linkQueryUsers, jsonParser, (request, response) => {
   const body = request.body;
@@ -72,7 +67,6 @@ app.post(linkQueryUsers, jsonParser, (request, response) => {
         error: "Failed to authenticate."
       })
     }
-
 
   });
 
