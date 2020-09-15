@@ -3,6 +3,8 @@ const {
   jsonParser
 } = require('./app');
 
+const respond = require('./oddsAndEnds');
+
 const User = require('./schemas');
 
 
@@ -21,12 +23,6 @@ function addUser(res, err, User) {
   } else {
     respond(res, 201, "User added successfully.");
   }
-}
-
-function respond(res, status, message) {
-  return res.status(status).send({
-    message: message
-  });
 }
 
 app.post('/signup', jsonParser, signUp);

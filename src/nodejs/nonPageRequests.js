@@ -7,6 +7,8 @@ const nprSignUp = require('./nprSignUp');
 
 const nprLogin = require('./nprLogin');
 
+const nprDashboard = require('./nprDashboard');
+
 const {
   linkQueryUsers,
   linkCreateUser,
@@ -97,7 +99,8 @@ app.post(linkCreateUser, jsonParser, (request, response) => {
     ["phoneNumber", "phoneNumber"],
     ["birthdate", "birthdate"]
   ];
-  const newUser = new User(toPermittedFields(body, permittedFields));
+  const filteredUser = toPermittedFields(body, permittedFields);
+  const newUser = new User(filteredUser);
   newUser.save(function(err) {
     response.send('Saved new user.');
   });

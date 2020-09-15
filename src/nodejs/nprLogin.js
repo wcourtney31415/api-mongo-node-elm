@@ -3,6 +3,10 @@ const {
   jsonParser
 } = require('./app');
 
+const {
+  respond
+} = require('./oddsAndEnds');
+
 const crypto = require('crypto');
 
 const moment = require('moment');
@@ -32,11 +36,7 @@ function login(req, res) {
   User.findOne(query, attemptLogin);
 }
 
-function respond(res, status, message) {
-  return res.status(status).send({
-    message: message
-  });
-}
+
 
 function addSession(user) {
   const sessionId = crypto.randomBytes(16).toString('hex');

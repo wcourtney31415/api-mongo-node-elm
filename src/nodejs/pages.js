@@ -3,10 +3,12 @@ const {
 } = require('./app');
 
 const {
+  getFile
+} = require('./oddsAndEnds');
+
+const {
   links
 } = require('./links');
-
-const path = require('path');
 
 
 
@@ -24,7 +26,3 @@ app.get('/signup', (request, response) => {
   const homepage = getFile('SignUp.html');
   response.sendFile(homepage);
 })
-
-function getFile(fileName) {
-  return path.join(__dirname + '/html/' + fileName);
-}
