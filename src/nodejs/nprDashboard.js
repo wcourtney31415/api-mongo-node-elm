@@ -33,7 +33,8 @@ function dashboard(req, res) {
         }
       });
     } else {
-      respond(res, 400, "User not found.");
+      //User not found
+      res.redirect("/login");
     }
   });
 }
