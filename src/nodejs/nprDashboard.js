@@ -17,17 +17,14 @@ function dashboard(req, res) {
   const query = {
     email: req.body.email
   };
-  User.findOne(query, (err, user) => {
+  const go = (err, user) => {
     if (user) {
       const sessions = user.sessions;
-      var validSession = false;
-      sessions.forEach(session => {
-        if (req.body.sessionId == session.sessionId) {
-          validSession = true;
-        }
-      });
+      const sessionId = req.body.sessionId;
+      const validSession = checkSessionId(sessionId, sessions);
       if (validSession) {
-        const dashboardPage = getFile('Dashboard.html');
+        const path = 'Dashboard.html';
+        const dashboardPage = getFile(path);
         res.sendFile(dashboardPage);
       } else {
         res.redirect("/login");
@@ -36,8 +33,18 @@ function dashboard(req, res) {
       //User not found
       res.redirect("/login");
     }
-  });
+  };
+  User.findOne(query, go);
 }
 
+function checkSessionId(sessionId, sessionList) {
+  var validSession = false;
+  sessionList.forEach(session => {
+    if (sessionId == session.sessionId) {
+      validSession = true;
+    }
+  });
+  return validSession;
+}
 
 app.get('/dashboard', jsonParser, dashboard);
